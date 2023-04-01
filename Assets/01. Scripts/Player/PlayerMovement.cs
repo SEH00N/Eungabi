@@ -7,6 +7,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float gravityScale = 1;
 
     private CharacterController charController = null;
+    private PlayerAnimator playerAnimator = null;
     private Vector3 movementVelocity = Vector3.zero;
     public Vector3 MovementVelocity => movementVelocity;
 
@@ -18,6 +19,7 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         charController = GetComponent<CharacterController>();
+        playerAnimator = transform.Find("Model").GetComponent<PlayerAnimator>();
         IsActiveMove = true;
     }
 
@@ -40,6 +42,7 @@ public class PlayerMovement : MonoBehaviour
         movementVelocity.Normalize();
         movementVelocity = Quaternion.Euler(0, -45f, 0) * movementVelocity;
 
+        playerAnimator?.SetSpeed(movementVelocity.sqrMagnitude);
 
         movementVelocity *= moveSpeed * Time.fixedDeltaTime;
         if (movementVelocity.sqrMagnitude > 0)
