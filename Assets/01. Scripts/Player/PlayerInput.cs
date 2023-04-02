@@ -4,7 +4,7 @@ using UnityEngine;
 public class PlayerInput : MonoBehaviour
 {
     // private event Action player
-    private PlayerMovement playterMovement = null;
+    private PlayerMovement playerMovement = null;
     private PlayerAttack playerAttack = null;
 
     public event Action<Vector3> OnMovementKeyPress = null;
@@ -12,7 +12,7 @@ public class PlayerInput : MonoBehaviour
 
     private void Awake()
     {
-        playterMovement = GetComponent<PlayerMovement>();
+        playerMovement = GetComponent<PlayerMovement>();
         playerAttack = GetComponent<PlayerAttack>();
     }
 
@@ -28,6 +28,7 @@ public class PlayerInput : MonoBehaviour
         float v = Input.GetAxisRaw("Vertical");
 
         OnMovementKeyPress?.Invoke(new Vector3(h, 0, v));
+        playerMovement.SetMovementVelocity(new Vector3(h, 0, v));
     }
 
     private void AttackInput()
