@@ -15,6 +15,7 @@ public class NormalState : State
 
     public override void OnExitState()
     {
+
         playerInput.OnMovementKeyPress -= MovementHandle;
         playerInput.OnAttackKeyPress -= AttackInputHandle;
     }

@@ -30,6 +30,7 @@ public class BaseAttackState : State
 
     public void OnAnimationEndHandle()
     {
+        playerAnimator.ToggleSwing(false);
         stateHandler.ChangeState(StateFlag.Normal);
     }
 }

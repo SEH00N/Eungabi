@@ -15,7 +15,7 @@ public class PlayerAttack : MonoBehaviour
     public void ActiveMainWeapon()
     {
         if(mainWeapon.TryAticveWeapon())
-            playerAnimator.ToggleSwingTrigger(true);
+            playerAnimator.ToggleSwing(true);
     }
 
     public void ActiveSubWeapon()

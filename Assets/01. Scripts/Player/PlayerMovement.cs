@@ -8,8 +8,11 @@ public class PlayerMovement : MonoBehaviour
 
     private CharacterController charController = null;
     private PlayerAnimator playerAnimator = null;
+
+    private Vector3 movementDir = Vector3.zero;
+    public Vector3 MovementDir => movementDir;
+
     private Vector3 movementVelocity = Vector3.zero;
-    public Vector3 MovementVelocity => movementVelocity;
 
     private float gravity = -9.81f;
     private float verticalVelocity = 0f;
@@ -39,24 +42,24 @@ public class PlayerMovement : MonoBehaviour
 
     private void CalculateSpeed()
     {
-        movementVelocity.Normalize();
-        movementVelocity = Quaternion.Euler(0, -45f, 0) * movementVelocity;
+        movementVelocity = Quaternion.Euler(0, -45f, 0) * movementDir.normalized;
 
-        playerAnimator?.SetSpeed(movementVelocity.sqrMagnitude);
+        playerAnimator?.SetSpeed(movementDir.sqrMagnitude);
 
         movementVelocity *= moveSpeed * Time.fixedDeltaTime;
-        if (movementVelocity.sqrMagnitude > 0)
-            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(movementVelocity), Time.deltaTime * rotateSpeed);
+        if (movementDir.sqrMagnitude > 0)
+            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(movementVelocity), Time.fixedDeltaTime * rotateSpeed);
     }
 
     public void StopImmediatly()
     {
-        movementVelocity = Vector3.zero;
+        movementDir = Vector3.zero;
+        playerAnimator?.SetSpeed(0f);
     }
 
     public void SetMovementVelocity(Vector3 value)
     {
-        movementVelocity = value;
+        movementDir = value;
     }
 
     public void SetRotation(Vector3 target)

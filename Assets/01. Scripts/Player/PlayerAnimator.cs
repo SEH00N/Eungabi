@@ -13,18 +13,10 @@ public class PlayerAnimator : MonoBehaviour
     private void Awake()
     {
         animator = GetComponent<Animator>();
-        OnAnimationEndTrigger += () => Debug.Log("Hello, World!");
     }
 
     public void OnAnimationEnd() => OnAnimationEndTrigger?.Invoke(); 
 
     public void SetSpeed(float speed) => animator.SetFloat(speedHash, speed);
-    public void ToggleSwingTrigger(bool value)
-    {
-        if(value)
-            animator.SetTrigger(onSwingHash);
-        else
-            animator.ResetTrigger(onSwingHash);
-    }
-
+    public void ToggleSwing(bool value) => animator.SetBool(onSwingHash, value);
 }

@@ -27,8 +27,10 @@ public class PlayerInput : MonoBehaviour
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
 
-        OnMovementKeyPress?.Invoke(new Vector3(h, 0, v));
-        playerMovement.SetMovementVelocity(new Vector3(h, 0, v));
+        Vector3 input = new Vector3(h, 0, v);
+
+        OnMovementKeyPress?.Invoke(input);
+        //playerMovement.SetMovementVelocity(new Vector3(h, 0, v));
     }
 
     private void AttackInput()
