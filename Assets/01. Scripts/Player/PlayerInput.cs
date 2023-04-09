@@ -8,7 +8,7 @@ public class PlayerInput : MonoBehaviour
     private PlayerAttack playerAttack = null;
 
     public event Action<Vector3> OnMovementKeyPress = null;
-    public event Action<AttackType> OnAttackKeyPress = null;
+    public event Action<AttackFlag> OnAttackKeyPress = null;
 
     private void Awake()
     {
@@ -34,8 +34,8 @@ public class PlayerInput : MonoBehaviour
     private void AttackInput()
     {
         if(Input.GetMouseButtonDown(0))
-            OnAttackKeyPress?.Invoke(AttackType.MainAttack);
+            OnAttackKeyPress?.Invoke(AttackFlag.BaseAttack);
         else if(Input.GetMouseButtonDown(1))
-            OnAttackKeyPress?.Invoke(AttackType.SubAttack);
+            OnAttackKeyPress?.Invoke(AttackFlag.SubAttack);
     }
 }

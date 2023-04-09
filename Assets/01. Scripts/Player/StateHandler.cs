@@ -2,15 +2,15 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StateController : MonoBehaviour
+public class StateHandler : MonoBehaviour
 {
-    private Dictionary<StateType, State> stateDictionary = new Dictionary<StateType, State>();
-    private State currentState = null;
+    [SerializeField] State currentState = null;
+    private Dictionary<StateFlag, State> stateDictionary = new Dictionary<StateFlag, State>();
 
     private void Awake()
     {
         Transform stateArchive = transform.Find("State");
-        foreach(StateType stateType in Enum.GetValues(typeof(StateType)))
+        foreach(StateFlag stateType in Enum.GetValues(typeof(StateFlag)))
         {
             State state = stateArchive.GetComponent($"{stateType}State") as State;
             if(state == null)
@@ -26,7 +26,7 @@ public class StateController : MonoBehaviour
 
     private void Start()
     {
-        ChangeState(StateType.Normal);
+        ChangeState(StateFlag.Normal);
     }
 
     private void Update()
@@ -34,8 +34,14 @@ public class StateController : MonoBehaviour
         currentState?.UpdateState();
     }
 
-    public void ChangeState(StateType targetState)
+    public void ChangeState(StateFlag targetState)
     {
+        if(stateDictionary.ContainsKey(targetState) == false) 
+        {
+            Debug.LogWarning($"There is no script about {targetState} state");
+            return;
+        }
+
         currentState?.OnExitState();
         currentState = stateDictionary[targetState];
 

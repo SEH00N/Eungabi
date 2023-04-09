@@ -4,7 +4,8 @@ public abstract class State : MonoBehaviour
 {
     protected PlayerInput playerInput = null;
     protected PlayerMovement playerMovement = null;
-    protected StateController stateController = null;
+    protected PlayerAnimator playerAnimator = null;
+    protected StateHandler stateHandler = null;
 
     public abstract void OnEnterState();
     public abstract void UpdateState();
@@ -14,6 +15,7 @@ public abstract class State : MonoBehaviour
     {
         playerInput = root.GetComponent<PlayerInput>();
         playerMovement = root.GetComponent<PlayerMovement>();
-        stateController = root.GetComponent<StateController>();
+        stateHandler = root.GetComponent<StateHandler>();
+        playerAnimator = root.Find("Model").GetComponent<PlayerAnimator>();
     }
 }

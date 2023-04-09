@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class NormalState : State
@@ -9,14 +8,15 @@ public class NormalState : State
         playerInput.OnAttackKeyPress += AttackInputHandle;
     }
 
-    public override void OnExitState()
+    public override void UpdateState()
     {
 
     }
 
-    public override void UpdateState()
+    public override void OnExitState()
     {
-
+        playerInput.OnMovementKeyPress -= MovementHandle;
+        playerInput.OnAttackKeyPress -= AttackInputHandle;
     }
 
     private void MovementHandle(Vector3 dir)
@@ -24,8 +24,8 @@ public class NormalState : State
         playerMovement.SetMovementVelocity(dir);
     }
 
-    private void AttackInputHandle(AttackType attackType)
+    private void AttackInputHandle(AttackFlag attackType)
     {
-        stateController.ChangeState(attackType == AttackType.MainAttack ? StateType.MainAttack : StateType.SubAttack);
+        stateHandler.ChangeState(attackType == AttackFlag.BaseAttack ? StateFlag.BaseAttack : StateFlag.SubAttack);
     }
 }

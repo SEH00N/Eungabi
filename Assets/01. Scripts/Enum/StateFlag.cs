@@ -1,7 +1,7 @@
-public enum StateType
+public enum StateFlag
 {
     Normal = 0,
-    MainAttack,
+    BaseAttack,
     SubAttack,
     Hit,
     Interact,
