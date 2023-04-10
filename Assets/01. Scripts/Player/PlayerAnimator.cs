@@ -8,7 +8,8 @@ public class PlayerAnimator : MonoBehaviour
     private Animator animator = null;
 
     private int speedHash = Animator.StringToHash("Speed");
-    private int onSwingHash = Animator.StringToHash("OnSwing");
+    private int onAttackHash = Animator.StringToHash("OnAttack");
+    private int onSubAttackHash = Animator.StringToHash("OnSubAttack");
 
     private void Awake()
     {
@@ -18,5 +19,6 @@ public class PlayerAnimator : MonoBehaviour
     public void OnAnimationEnd() => OnAnimationEndTrigger?.Invoke(); 
 
     public void SetSpeed(float speed) => animator.SetFloat(speedHash, speed);
-    public void ToggleSwing(bool value) => animator.SetBool(onSwingHash, value);
+    public void ToggleAttack(bool value) => animator.SetBool(onAttackHash, value);
+    public void ToggleSubAttack(bool value) => animator.SetBool(onSubAttackHash, value);
 }

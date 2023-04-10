@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BaseAttackState : State
+public class SubAttackState : State
 {
     private PlayerAttack playerAttack = null;
 
@@ -14,7 +14,7 @@ public class BaseAttackState : State
     public override void OnEnterState()
     {
         playerMovement.StopImmediatly();
-        playerAttack.ActiveMainWeapon();
+        playerAttack.ActiveSubWeapon();
         
         playerAnimator.OnAnimationEndTrigger += OnAnimationEndHandle;
     }
@@ -30,7 +30,7 @@ public class BaseAttackState : State
 
     public void OnAnimationEndHandle()
     {
-        playerAnimator.ToggleAttack(false);
+        playerAnimator.ToggleSubAttack(false);
         stateHandler.ChangeState(StateFlag.Normal);
     }
 }

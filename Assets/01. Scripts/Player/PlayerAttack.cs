@@ -15,11 +15,12 @@ public class PlayerAttack : MonoBehaviour
     public void ActiveMainWeapon()
     {
         if(mainWeapon.TryAticveWeapon())
-            playerAnimator.ToggleSwing(true);
+            playerAnimator.ToggleAttack(true);
     }
 
     public void ActiveSubWeapon()
     {
-
+        if(subWeapon.TryAticveWeapon())
+            playerAnimator.ToggleSubAttack(true);
     }
 }
