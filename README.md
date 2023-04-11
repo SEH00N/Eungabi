@@ -5,7 +5,7 @@
 
 <br/>
 
-## About Game
+## **About Game**
 > 제목
  - “은은한 가운데 빛을 발하라”라는 문장을 축약시킨 단어로 순우리말로 잘못 알려진 한자어입니다.
  - 게임 속 주인공은 폐허가 되어 어두컴컴해진 성을 빛으로 채우기 위한 탐험을 합니다.
@@ -40,7 +40,13 @@
 
 <br/>
 
-## Game Logic
+## **Game Logic**
+
+> DEFINE
+
+<image src="./ETC/UML/DEFINE.png"/>
+
+<br/>
 
 > PlayerComponent
 
@@ -63,3 +69,5 @@
 > InteractLogic
 
 <image src="./ETC/UML/InteractLogic.png"/>
+
+<br/>
