@@ -57,3 +57,9 @@
 > StateLogic
 
 <image src="./ETC/UML/StateLogic.png"/>
+
+<br/>
+
+> InteractLogic
+
+<image src="./ETC/UML/InteractLogic.png"/>
