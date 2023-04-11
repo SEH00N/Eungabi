@@ -6,7 +6,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float rotateSpeed = 10f;
     [SerializeField] float gravityScale = 1;
 
-    private CharacterController charController = null;
+    private CharacterController characterController = null;
     private PlayerAnimator playerAnimator = null;
 
     private Vector3 movementDir = Vector3.zero;
@@ -21,7 +21,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
-        charController = GetComponent<CharacterController>();
+        characterController = GetComponent<CharacterController>();
         playerAnimator = transform.Find("Model").GetComponent<PlayerAnimator>();
         IsActiveMove = true;
     }
@@ -31,13 +31,13 @@ public class PlayerMovement : MonoBehaviour
         if (IsActiveMove)
             CalculateSpeed();
 
-        if (charController.isGrounded == false)
+        if (characterController.isGrounded == false)
             verticalVelocity = gravity * gravityScale * Time.fixedDeltaTime;
         else
             verticalVelocity = gravity * 0.3f * Time.fixedDeltaTime;
 
         Vector3 move = movementVelocity + verticalVelocity * Vector3.up;
-        charController.Move(move);
+        characterController.Move(move);
     }
 
     private void CalculateSpeed()
