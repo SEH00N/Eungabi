@@ -11,11 +11,11 @@ public class RollingState : State
         playerMovement.StopImmediatly();
         playerMovement.IsActiveMove = false;
 
-        Vector3 direction = Quaternion.Euler(0, -45f, 0) * playerInput.GetCurrentInputDirection();
+        Vector3 direction = Quaternion.Euler(0, -45f, 0) * playerInput.GetCurrentInputDirection().normalized;
         if(direction.sqrMagnitude <= 0)
             direction = stateHandler.transform.forward;
 
-        playerMovement.SetRotation(direction + stateHandler.transform.position);
+        playerMovement.SetRotationImmediatly(direction + stateHandler.transform.position);
         playerMovement.SetMovementVelocity(direction * rollingSpeed);
 
         playerAnimator.ToggleRolling(true);

@@ -12,18 +12,22 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 movementDir = Vector3.zero;
     public Vector3 MovementDir => movementDir;
 
+    private Quaternion lookDirection = Quaternion.identity;
+
     private Vector3 movementVelocity = Vector3.zero;
 
     private float gravity = -9.81f;
     private float verticalVelocity = 0f;
 
     public bool IsActiveMove { get; set; }
+    public bool IsActiveRotate { get; set; }
 
     private void Awake()
     {
         characterController = GetComponent<CharacterController>();
         playerAnimator = transform.Find("Model").GetComponent<PlayerAnimator>();
         IsActiveMove = true;
+        IsActiveRotate = true;
     }
 
     private void FixedUpdate()
@@ -47,8 +51,20 @@ public class PlayerMovement : MonoBehaviour
         playerAnimator?.SetSpeed(movementDir.sqrMagnitude);
 
         movementVelocity *= moveSpeed * Time.fixedDeltaTime;
-        if (movementDir.sqrMagnitude > 0)
-            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(movementVelocity), Time.fixedDeltaTime * rotateSpeed);
+        
+        // if (movementDir.sqrMagnitude > 0)
+        //     lookDir = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(movementVelocity), 0.5f);
+            
+        // transform.rotation = Quaternion.Lerp(transform.rotation, lookDir, Time.fixedDeltaTime * rotateSpeed);
+        if (IsActiveRotate)
+        {
+            if(movementDir.sqrMagnitude > 0)
+                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(movementVelocity), Time.fixedDeltaTime * rotateSpeed);
+        }
+        else
+        {
+            transform.rotation = Quaternion.Lerp(transform.rotation, lookDirection, Time.fixedDeltaTime * rotateSpeed);
+        }
     }
 
     public void StopImmediatly()
@@ -60,11 +76,19 @@ public class PlayerMovement : MonoBehaviour
     public void SetMovementDirection(Vector3 value) => movementDir = value;
     public void SetMovementVelocity(Vector3 value) => movementVelocity = value;
 
-    public void SetRotation(Vector3 target)
+    public void SetRotationImmediatly(Vector3 target)
     {
         Vector3 dir = target - transform.position;
         dir.y = transform.position.y;
 
         transform.rotation = Quaternion.LookRotation(dir);
+    }
+
+    public void SetRotation(Vector3 target)
+    {
+        Vector3 dir = target - transform.position;
+        dir.y = transform.position.y;
+
+        lookDirection = Quaternion.LookRotation(dir);
     }
 }

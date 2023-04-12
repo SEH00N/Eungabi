@@ -13,19 +13,23 @@ public class BaseAttackState : State
 
     public override void OnEnterState()
     {
+        playerMovement.IsActiveRotate = false;
         playerMovement.StopImmediatly();
+        playerMovement.SetRotation(playerInput.GetMouseWorldPosition());
+
         playerAttack.ActiveMainWeapon();
         
         playerAnimator.OnAnimationEndTrigger += OnAnimationEndHandle;
     }
 
-    public override void OnExitState()
-    {
-        playerAnimator.OnAnimationEndTrigger -= OnAnimationEndHandle;
-    }
-
     public override void UpdateState()
     {
+    }
+
+    public override void OnExitState()
+    {
+        playerMovement.IsActiveRotate = true;
+        playerAnimator.OnAnimationEndTrigger -= OnAnimationEndHandle;
     }
 
     public void OnAnimationEndHandle()

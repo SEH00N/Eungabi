@@ -34,7 +34,6 @@ public class PlayerInput : MonoBehaviour
         currentInputDirection = new Vector3(h, 0, v);
 
         OnMovementKeyPress?.Invoke(currentInputDirection);
-        //playerMovement.SetMovementVelocity(new Vector3(h, 0, v));
     }
 
     private void AttackInput()
@@ -52,4 +51,12 @@ public class PlayerInput : MonoBehaviour
     }
 
     public Vector3 GetCurrentInputDirection() => currentInputDirection.normalized;
+    public Vector3 GetMouseWorldPosition() 
+    {
+        Ray ray = DEFINE.MainCam.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        bool result = Physics.Raycast(ray, out hit, DEFINE.MainCam.farClipPlane, DEFINE.GroundLayer);
+
+        return (result ? hit.point : Vector3.zero);
+    }
 }
