@@ -57,10 +57,8 @@ public class PlayerMovement : MonoBehaviour
         playerAnimator?.SetSpeed(0f);
     }
 
-    public void SetMovementVelocity(Vector3 value)
-    {
-        movementDir = value;
-    }
+    public void SetMovementDirection(Vector3 value) => movementDir = value;
+    public void SetMovementVelocity(Vector3 value) => movementVelocity = value;
 
     public void SetRotation(Vector3 target)
     {

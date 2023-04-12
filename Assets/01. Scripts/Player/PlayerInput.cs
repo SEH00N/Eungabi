@@ -9,6 +9,9 @@ public class PlayerInput : MonoBehaviour
 
     public event Action<Vector3> OnMovementKeyPress = null;
     public event Action<AttackFlag> OnAttackKeyPress = null;
+    public event Action OnRollingKeyPress = null;
+
+    private Vector3 currentInputDirection = Vector3.zero;
 
     private void Awake()
     {
@@ -20,6 +23,7 @@ public class PlayerInput : MonoBehaviour
     {
         MovementInput();
         AttackInput();
+        RollingInput();
     }
 
     private void MovementInput()
@@ -27,9 +31,9 @@ public class PlayerInput : MonoBehaviour
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
 
-        Vector3 input = new Vector3(h, 0, v);
+        currentInputDirection = new Vector3(h, 0, v);
 
-        OnMovementKeyPress?.Invoke(input);
+        OnMovementKeyPress?.Invoke(currentInputDirection);
         //playerMovement.SetMovementVelocity(new Vector3(h, 0, v));
     }
 
@@ -40,4 +44,12 @@ public class PlayerInput : MonoBehaviour
         else if(Input.GetMouseButtonDown(1))
             OnAttackKeyPress?.Invoke(AttackFlag.SubAttack);
     }
+
+    private void RollingInput()
+    {
+        if(Input.GetKeyDown(KeyCode.Space))
+            OnRollingKeyPress?.Invoke();
+    }
+
+    public Vector3 GetCurrentInputDirection() => currentInputDirection.normalized;
 }
