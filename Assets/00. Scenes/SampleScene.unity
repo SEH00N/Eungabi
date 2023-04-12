@@ -501,7 +501,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 10
-  rotateSpeed: 10
+  rotateSpeed: 15
   gravityScale: 1
 --- !u!114 &351281808
 MonoBehaviour:
@@ -1342,7 +1342,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackCooldown: 0.1
   detectPos: {fileID: 1684338617}
-  detectRadius: 0.75
+  detectRadius: 0.85
   startDelay: 0.2
 --- !u!1 &705507993
 GameObject:
