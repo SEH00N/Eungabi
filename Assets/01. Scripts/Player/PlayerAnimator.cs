@@ -4,6 +4,7 @@ using UnityEngine;
 public class PlayerAnimator : MonoBehaviour
 {
     public event Action OnAnimationEndTrigger = null;
+    public event Action OnAnimationEventTrigger = null;
 
     private Animator animator = null;
 
@@ -18,6 +19,7 @@ public class PlayerAnimator : MonoBehaviour
     }
 
     public void OnAnimationEnd() => OnAnimationEndTrigger?.Invoke(); 
+    public void OnAnimationEvent() => OnAnimationEventTrigger?.Invoke(); 
 
     public void SetSpeed(float speed) => animator.SetFloat(speedHash, speed);
     public void ToggleAttack(bool value) => animator.SetBool(onAttackHash, value);
