@@ -18,6 +18,7 @@ public class BaseAttackState : State
         playerMovement.StopImmediatly();
         playerMovement.SetRotation(playerInput.GetMouseWorldPosition());
 
+        playerAttack.ActiveMainWeapon();
         
         playerAnimator.OnAnimationEndTrigger += OnAnimationEndHandle;
         playerAnimator.OnAnimationEventTrigger += OnAnimationEventHandle;
