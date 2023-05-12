@@ -1,4 +1,3 @@
-// Automatically patched for procedural instancing with Nature Renderer: https://visualdesigncafe.com/get/nature-renderer
 // Made with Amplify Shader Editor
 // Available at the Unity Asset Store - http://u3d.as/y3X 
 Shader "Polyart/Dreamscape Simple Foliage"
@@ -12,12 +11,11 @@ Shader "Polyart/Dreamscape Simple Foliage"
 		_FoliageTexture("Foliage Texture", 2D) = "white" {}
 		_ColorMask("Color Mask", 2D) = "white" {}
 		_Smoothness("Smoothness", Range( -2 , 2)) = 1
-		[Header(WIND)]_WindSpeed("Wind Speed", Range( 0 , 1)) = 0.5
 		_WindScale("Wind Scale", Range( 0 , 2)) = 0.2588236
+		[Header(WIND)]_WindSpeed("Wind Speed", Range( 0 , 1)) = 0.5
 		_WindIntensity("Wind Intensity", Range( 0 , 50)) = 5
-		_DitherBottomLevel("Dither Bottom Level", Range( -10 , 10)) = 0
-		_DitherFade("Dither Fade", Range( 0 , 10)) = 0
-		[ASEEnd][Toggle(_DITHERINGON_ON)] _DitheringON("Dithering ON", Float) = 0
+		[Toggle(_DITHERINGON_ON)] _DitheringON("Dithering ON", Float) = 0
+		[ASEEnd]_AlphaClipThreshold("Alpha Clip Threshold", Range( 0 , 1)) = 0.8
 		[HideInInspector] _texcoord( "", 2D ) = "white" {}
 
 		//_TransmissionShadow( "Transmission Shadow", Range( 0, 1 ) ) = 0.5
@@ -41,7 +39,7 @@ Shader "Polyart/Dreamscape Simple Foliage"
 
 		
 
-		Tags { "RenderPipeline"="UniversalPipeline" "RenderType"="Opaque" "Queue"="Geometry"  "NatureRendererInstancing"="True" }
+		Tags { "RenderPipeline"="UniversalPipeline" "RenderType"="Opaque" "Queue"="Geometry" }
 		Cull Back
 		AlphaToMask Off
 		HLSLINCLUDE
@@ -159,7 +157,7 @@ Shader "Polyart/Dreamscape Simple Foliage"
 		{
 			
 			Name "Forward"
-			Tags { "LightMode"="UniversalForward"  "NatureRendererInstancing"="True" }
+			Tags { "LightMode"="UniversalForward" }
 			
 			Blend One Zero, One Zero
 			ZWrite On
@@ -199,8 +197,6 @@ Shader "Polyart/Dreamscape Simple Foliage"
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/UnityInstancing.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderGraphFunctions.hlsl"
-#include "Assets/Visual Design Cafe/Nature Shaders/Integrations/Nature Renderer.templatex"
-
 			
 			#if ASE_SRP_VERSION <= 70108
 			#define REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR
@@ -212,8 +208,7 @@ Shader "Polyart/Dreamscape Simple Foliage"
 
 			#define ASE_NEEDS_FRAG_SCREEN_POSITION
 			#define ASE_NEEDS_VERT_POSITION
-			#pragma instancing_options procedural:SetupNatureRenderer forwardadd renderinglayer
-#pragma shader_feature _DITHERINGON_ON
+			#pragma shader_feature _DITHERINGON_ON
 
 
 			struct VertexInput
@@ -256,8 +251,7 @@ Shader "Polyart/Dreamscape Simple Foliage"
 			float _WindScale;
 			float _WindIntensity;
 			float _Smoothness;
-			float _DitherBottomLevel;
-			float _DitherFade;
+			float _AlphaClipThreshold;
 			#ifdef _TRANSMISSION_ASE
 				float _TransmissionShadow;
 			#endif
@@ -278,9 +272,11 @@ Shader "Polyart/Dreamscape Simple Foliage"
 				float _TessMaxDisp;
 			#endif
 			CBUFFER_END
-			float FoliageRenderDistance;
 			sampler2D _FoliageTexture;
 			sampler2D _ColorMask;
+			float FoliageRenderDistance;
+			float DitherBottomLevel;
+			float DitherFade;
 
 
 			float3 mod3D289( float3 x ) { return x - floor( x / 289.0 ) * 289.0; }
@@ -569,7 +565,7 @@ Shader "Polyart/Dreamscape Simple Foliage"
 				float vGrassDistance90 = dither87;
 				float2 clipScreen89 = ase_screenPosNorm.xy * _ScreenParams.xy;
 				float dither89 = Dither8x8Bayer( fmod(clipScreen89.x, 8), fmod(clipScreen89.y, 8) );
-				dither89 = step( dither89, saturate( ( ( IN.ase_texcoord8.xyz.y + _DitherBottomLevel ) * ( _DitherFade * 2 ) ) ) );
+				dither89 = step( dither89, saturate( ( ( IN.ase_texcoord8.xyz.y + DitherBottomLevel ) * ( DitherFade * 2 ) ) ) );
 				float vTerrainDither91 = dither89;
 				#ifdef _DITHERINGON_ON
 				float staticSwitch108 = ( ( vAlpha96 * vGrassDistance90 ) * vTerrainDither91 );
@@ -585,7 +581,7 @@ Shader "Polyart/Dreamscape Simple Foliage"
 				float Smoothness = _Smoothness;
 				float Occlusion = 1;
 				float Alpha = staticSwitch108;
-				float AlphaClipThreshold = 0.76;
+				float AlphaClipThreshold = _AlphaClipThreshold;
 				float AlphaClipThresholdShadow = 0.5;
 				float3 BakedGI = 0;
 				float3 RefractionColor = 1;
@@ -739,7 +735,7 @@ Shader "Polyart/Dreamscape Simple Foliage"
 		{
 			
 			Name "ShadowCaster"
-			Tags { "LightMode"="ShadowCaster"  "NatureRendererInstancing"="True" }
+			Tags { "LightMode"="ShadowCaster" }
 
 			ZWrite On
 			ZTest LEqual
@@ -764,13 +760,10 @@ Shader "Polyart/Dreamscape Simple Foliage"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderGraphFunctions.hlsl"
-#include "Assets/Visual Design Cafe/Nature Shaders/Integrations/Nature Renderer.templatex"
-
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
 
 			#define ASE_NEEDS_VERT_POSITION
-			#pragma instancing_options procedural:SetupNatureRenderer forwardadd renderinglayer
-#pragma shader_feature _DITHERINGON_ON
+			#pragma shader_feature _DITHERINGON_ON
 
 
 			struct VertexInput
@@ -807,8 +800,7 @@ Shader "Polyart/Dreamscape Simple Foliage"
 			float _WindScale;
 			float _WindIntensity;
 			float _Smoothness;
-			float _DitherBottomLevel;
-			float _DitherFade;
+			float _AlphaClipThreshold;
 			#ifdef _TRANSMISSION_ASE
 				float _TransmissionShadow;
 			#endif
@@ -829,8 +821,10 @@ Shader "Polyart/Dreamscape Simple Foliage"
 				float _TessMaxDisp;
 			#endif
 			CBUFFER_END
-			float FoliageRenderDistance;
 			sampler2D _FoliageTexture;
+			float FoliageRenderDistance;
+			float DitherBottomLevel;
+			float DitherFade;
 
 
 			float3 mod3D289( float3 x ) { return x - floor( x / 289.0 ) * 289.0; }
@@ -1083,7 +1077,7 @@ Shader "Polyart/Dreamscape Simple Foliage"
 				float vGrassDistance90 = dither87;
 				float2 clipScreen89 = ase_screenPosNorm.xy * _ScreenParams.xy;
 				float dither89 = Dither8x8Bayer( fmod(clipScreen89.x, 8), fmod(clipScreen89.y, 8) );
-				dither89 = step( dither89, saturate( ( ( IN.ase_texcoord4.xyz.y + _DitherBottomLevel ) * ( _DitherFade * 2 ) ) ) );
+				dither89 = step( dither89, saturate( ( ( IN.ase_texcoord4.xyz.y + DitherBottomLevel ) * ( DitherFade * 2 ) ) ) );
 				float vTerrainDither91 = dither89;
 				#ifdef _DITHERINGON_ON
 				float staticSwitch108 = ( ( vAlpha96 * vGrassDistance90 ) * vTerrainDither91 );
@@ -1092,7 +1086,7 @@ Shader "Polyart/Dreamscape Simple Foliage"
 				#endif
 				
 				float Alpha = staticSwitch108;
-				float AlphaClipThreshold = 0.76;
+				float AlphaClipThreshold = _AlphaClipThreshold;
 				float AlphaClipThresholdShadow = 0.5;
 				#ifdef ASE_DEPTH_WRITE_ON
 				float DepthValue = 0;
@@ -1123,7 +1117,7 @@ Shader "Polyart/Dreamscape Simple Foliage"
 		{
 			
 			Name "DepthOnly"
-			Tags { "LightMode"="DepthOnly"  "NatureRendererInstancing"="True" }
+			Tags { "LightMode"="DepthOnly" }
 
 			ZWrite On
 			ColorMask 0
@@ -1148,13 +1142,10 @@ Shader "Polyart/Dreamscape Simple Foliage"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderGraphFunctions.hlsl"
-#include "Assets/Visual Design Cafe/Nature Shaders/Integrations/Nature Renderer.templatex"
-
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
 
 			#define ASE_NEEDS_VERT_POSITION
-			#pragma instancing_options procedural:SetupNatureRenderer forwardadd renderinglayer
-#pragma shader_feature _DITHERINGON_ON
+			#pragma shader_feature _DITHERINGON_ON
 
 
 			struct VertexInput
@@ -1191,8 +1182,7 @@ Shader "Polyart/Dreamscape Simple Foliage"
 			float _WindScale;
 			float _WindIntensity;
 			float _Smoothness;
-			float _DitherBottomLevel;
-			float _DitherFade;
+			float _AlphaClipThreshold;
 			#ifdef _TRANSMISSION_ASE
 				float _TransmissionShadow;
 			#endif
@@ -1213,8 +1203,10 @@ Shader "Polyart/Dreamscape Simple Foliage"
 				float _TessMaxDisp;
 			#endif
 			CBUFFER_END
-			float FoliageRenderDistance;
 			sampler2D _FoliageTexture;
+			float FoliageRenderDistance;
+			float DitherBottomLevel;
+			float DitherFade;
 
 
 			float3 mod3D289( float3 x ) { return x - floor( x / 289.0 ) * 289.0; }
@@ -1457,7 +1449,7 @@ Shader "Polyart/Dreamscape Simple Foliage"
 				float vGrassDistance90 = dither87;
 				float2 clipScreen89 = ase_screenPosNorm.xy * _ScreenParams.xy;
 				float dither89 = Dither8x8Bayer( fmod(clipScreen89.x, 8), fmod(clipScreen89.y, 8) );
-				dither89 = step( dither89, saturate( ( ( IN.ase_texcoord4.xyz.y + _DitherBottomLevel ) * ( _DitherFade * 2 ) ) ) );
+				dither89 = step( dither89, saturate( ( ( IN.ase_texcoord4.xyz.y + DitherBottomLevel ) * ( DitherFade * 2 ) ) ) );
 				float vTerrainDither91 = dither89;
 				#ifdef _DITHERINGON_ON
 				float staticSwitch108 = ( ( vAlpha96 * vGrassDistance90 ) * vTerrainDither91 );
@@ -1466,7 +1458,7 @@ Shader "Polyart/Dreamscape Simple Foliage"
 				#endif
 				
 				float Alpha = staticSwitch108;
-				float AlphaClipThreshold = 0.76;
+				float AlphaClipThreshold = _AlphaClipThreshold;
 				#ifdef ASE_DEPTH_WRITE_ON
 				float DepthValue = 0;
 				#endif
@@ -1491,7 +1483,7 @@ Shader "Polyart/Dreamscape Simple Foliage"
 		{
 			
 			Name "Meta"
-			Tags { "LightMode"="Meta"  "NatureRendererInstancing"="True" }
+			Tags { "LightMode"="Meta" }
 
 			Cull Off
 
@@ -1514,16 +1506,13 @@ Shader "Polyart/Dreamscape Simple Foliage"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/MetaInput.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderGraphFunctions.hlsl"
-#include "Assets/Visual Design Cafe/Nature Shaders/Integrations/Nature Renderer.templatex"
-
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
 
 			#define ASE_NEEDS_VERT_POSITION
 			#pragma shader_feature _DITHERINGON_ON
 
 
-			#pragma instancing_options procedural:SetupNatureRenderer forwardadd renderinglayer
-#pragma shader_feature _ _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
+			#pragma shader_feature _ _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
 
 			struct VertexInput
 			{
@@ -1561,8 +1550,7 @@ Shader "Polyart/Dreamscape Simple Foliage"
 			float _WindScale;
 			float _WindIntensity;
 			float _Smoothness;
-			float _DitherBottomLevel;
-			float _DitherFade;
+			float _AlphaClipThreshold;
 			#ifdef _TRANSMISSION_ASE
 				float _TransmissionShadow;
 			#endif
@@ -1583,9 +1571,11 @@ Shader "Polyart/Dreamscape Simple Foliage"
 				float _TessMaxDisp;
 			#endif
 			CBUFFER_END
-			float FoliageRenderDistance;
 			sampler2D _FoliageTexture;
 			sampler2D _ColorMask;
+			float FoliageRenderDistance;
+			float DitherBottomLevel;
+			float DitherFade;
 
 
 			float3 mod3D289( float3 x ) { return x - floor( x / 289.0 ) * 289.0; }
@@ -1829,7 +1819,7 @@ Shader "Polyart/Dreamscape Simple Foliage"
 				float vGrassDistance90 = dither87;
 				float2 clipScreen89 = ase_screenPosNorm.xy * _ScreenParams.xy;
 				float dither89 = Dither8x8Bayer( fmod(clipScreen89.x, 8), fmod(clipScreen89.y, 8) );
-				dither89 = step( dither89, saturate( ( ( IN.ase_texcoord4.xyz.y + _DitherBottomLevel ) * ( _DitherFade * 2 ) ) ) );
+				dither89 = step( dither89, saturate( ( ( IN.ase_texcoord4.xyz.y + DitherBottomLevel ) * ( DitherFade * 2 ) ) ) );
 				float vTerrainDither91 = dither89;
 				#ifdef _DITHERINGON_ON
 				float staticSwitch108 = ( ( vAlpha96 * vGrassDistance90 ) * vTerrainDither91 );
@@ -1841,7 +1831,7 @@ Shader "Polyart/Dreamscape Simple Foliage"
 				float3 Albedo = vColor60.rgb;
 				float3 Emission = 0;
 				float Alpha = staticSwitch108;
-				float AlphaClipThreshold = 0.76;
+				float AlphaClipThreshold = _AlphaClipThreshold;
 
 				#ifdef _ALPHATEST_ON
 					clip(Alpha - AlphaClipThreshold);
@@ -1861,7 +1851,7 @@ Shader "Polyart/Dreamscape Simple Foliage"
 		{
 			
 			Name "Universal2D"
-			Tags { "LightMode"="Universal2D"  "NatureRendererInstancing"="True" }
+			Tags { "LightMode"="Universal2D" }
 
 			Blend One Zero, One Zero
 			ZWrite On
@@ -1890,15 +1880,12 @@ Shader "Polyart/Dreamscape Simple Foliage"
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/UnityInstancing.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderGraphFunctions.hlsl"
-#include "Assets/Visual Design Cafe/Nature Shaders/Integrations/Nature Renderer.templatex"
-
 			
 			#define ASE_NEEDS_VERT_POSITION
 			#pragma shader_feature _DITHERINGON_ON
 
 
-			#pragma instancing_options procedural:SetupNatureRenderer forwardadd renderinglayer
-#pragma shader_feature _ _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
+			#pragma shader_feature _ _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
 
 			struct VertexInput
 			{
@@ -1934,8 +1921,7 @@ Shader "Polyart/Dreamscape Simple Foliage"
 			float _WindScale;
 			float _WindIntensity;
 			float _Smoothness;
-			float _DitherBottomLevel;
-			float _DitherFade;
+			float _AlphaClipThreshold;
 			#ifdef _TRANSMISSION_ASE
 				float _TransmissionShadow;
 			#endif
@@ -1956,9 +1942,11 @@ Shader "Polyart/Dreamscape Simple Foliage"
 				float _TessMaxDisp;
 			#endif
 			CBUFFER_END
-			float FoliageRenderDistance;
 			sampler2D _FoliageTexture;
 			sampler2D _ColorMask;
+			float FoliageRenderDistance;
+			float DitherBottomLevel;
+			float DitherFade;
 
 
 			float3 mod3D289( float3 x ) { return x - floor( x / 289.0 ) * 289.0; }
@@ -2199,7 +2187,7 @@ Shader "Polyart/Dreamscape Simple Foliage"
 				float vGrassDistance90 = dither87;
 				float2 clipScreen89 = ase_screenPosNorm.xy * _ScreenParams.xy;
 				float dither89 = Dither8x8Bayer( fmod(clipScreen89.x, 8), fmod(clipScreen89.y, 8) );
-				dither89 = step( dither89, saturate( ( ( IN.ase_texcoord4.xyz.y + _DitherBottomLevel ) * ( _DitherFade * 2 ) ) ) );
+				dither89 = step( dither89, saturate( ( ( IN.ase_texcoord4.xyz.y + DitherBottomLevel ) * ( DitherFade * 2 ) ) ) );
 				float vTerrainDither91 = dither89;
 				#ifdef _DITHERINGON_ON
 				float staticSwitch108 = ( ( vAlpha96 * vGrassDistance90 ) * vTerrainDither91 );
@@ -2210,7 +2198,7 @@ Shader "Polyart/Dreamscape Simple Foliage"
 				
 				float3 Albedo = vColor60.rgb;
 				float Alpha = staticSwitch108;
-				float AlphaClipThreshold = 0.76;
+				float AlphaClipThreshold = _AlphaClipThreshold;
 
 				half4 color = half4( Albedo, Alpha );
 
@@ -2231,91 +2219,91 @@ Shader "Polyart/Dreamscape Simple Foliage"
 }
 /*ASEBEGIN
 Version=18912
-872;305;2305;1613;1340.403;625.3817;1;True;False
+862;1265;2305;1625;3766.218;-91.77573;1;True;False
 Node;AmplifyShaderEditor.CommentaryNode;79;-3084.924,-1028.846;Inherit;False;2026.637;461.4008;Dithering;14;91;89;90;107;87;105;86;104;81;102;80;103;101;106;;1,1,1,1;0;0
-Node;AmplifyShaderEditor.CommentaryNode;53;-3122.395,261.2668;Inherit;False;1713.722;584.5107;;12;57;56;49;50;51;47;48;43;45;42;46;44;Wind;1,1,1,1;0;0
-Node;AmplifyShaderEditor.RangedFloatNode;103;-3016.774,-778.0253;Inherit;False;Property;_DitherBottomLevel;Dither Bottom Level;9;0;Create;True;0;0;0;False;0;False;0;0.69;-10;10;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;80;-2297.287,-953.8452;Inherit;False;Global;FoliageRenderDistance;FoliageRenderDistance;9;0;Create;True;0;0;0;True;0;False;35;90.3;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;101;-3018.157,-697.3948;Inherit;False;Property;_DitherFade;Dither Fade;10;0;Create;True;0;0;0;False;0;False;0;0.57;0;10;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;103;-3016.774,-778.0253;Inherit;False;Global;DitherBottomLevel;Dither Bottom Level;9;0;Create;True;0;0;0;False;0;False;0;-0.11;-10;10;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;101;-3018.157,-697.3948;Inherit;False;Global;DitherFade;Dither Fade;10;0;Create;True;0;0;0;False;0;False;0;10;0;10;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;80;-2297.287,-953.8452;Inherit;False;Global;FoliageRenderDistance;FoliageRenderDistance;9;0;Create;True;0;0;0;True;0;False;35;200;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.PosVertexDataNode;106;-2992.69,-924.613;Inherit;False;0;0;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SimpleAddOpNode;104;-2718.58,-828.1163;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.ScaleNode;102;-2750.693,-695.5176;Inherit;False;2;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.CameraDepthFade;81;-1909.284,-973.8453;Inherit;False;3;2;FLOAT3;0,0,0;False;0;FLOAT;1;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;44;-3093.157,634.5677;Inherit;False;Property;_WindSpeed;Wind Speed;6;0;Create;True;0;0;0;False;1;Header(WIND);False;0.5;0;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.CommentaryNode;53;-3122.395,261.2668;Inherit;False;1713.722;584.5107;;12;57;56;49;50;51;47;48;43;45;42;46;44;Wind;1,1,1,1;0;0
 Node;AmplifyShaderEditor.CommentaryNode;65;-3112.49,-451.7797;Inherit;False;1702.997;576.199;Comment;10;64;55;63;54;60;58;59;10;12;96;;1,1,1,1;0;0
-Node;AmplifyShaderEditor.TexturePropertyNode;12;-2878.581,-297.7398;Inherit;True;Property;_FoliageTexture;Foliage Texture;3;0;Create;True;0;0;0;False;0;False;None;None;False;white;Auto;Texture2D;-1;0;2;SAMPLER2D;0;SAMPLERSTATE;1
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;105;-2559.415,-828.2041;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleAddOpNode;104;-2718.58,-828.1163;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.CameraDepthFade;81;-1909.284,-973.8453;Inherit;False;3;2;FLOAT3;0,0,0;False;0;FLOAT;1;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.ScaleNode;102;-2750.693,-695.5176;Inherit;False;2;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;44;-3093.157,633.5677;Inherit;False;Property;_WindSpeed;Wind Speed;7;0;Create;True;0;0;0;False;1;Header(WIND);False;0.5;0.085;0;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.ScaleNode;46;-2791.157,640.5677;Inherit;False;3;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.TexturePropertyNode;12;-2878.581,-297.7398;Inherit;True;Property;_FoliageTexture;Foliage Texture;3;0;Create;True;0;0;0;False;0;False;None;a4392cd78508ba44fb11964eacca93ac;False;white;Auto;Texture2D;-1;0;2;SAMPLER2D;0;SAMPLERSTATE;1
 Node;AmplifyShaderEditor.OneMinusNode;86;-1638.28,-974.8453;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;105;-2559.415,-828.2041;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.DitheringNode;87;-1470.281,-978.8453;Inherit;False;1;False;4;0;FLOAT;0;False;1;SAMPLER2D;;False;2;FLOAT4;0,0,0,0;False;3;SAMPLERSTATE;;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SaturateNode;107;-2263.735,-831.4385;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SamplerNode;10;-2658.103,-298.9787;Inherit;True;Property;_TextureSample0;Texture Sample 0;4;0;Create;True;0;0;0;False;0;False;12;None;None;True;0;False;white;Auto;False;Instance;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.WorldPosInputsNode;42;-2660.741,448.2984;Inherit;False;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
 Node;AmplifyShaderEditor.SimpleTimeNode;45;-2652.157,641.5677;Inherit;False;1;0;FLOAT;1;False;1;FLOAT;0
-Node;AmplifyShaderEditor.DitheringNode;87;-1470.281,-978.8453;Inherit;False;1;False;4;0;FLOAT;0;False;1;SAMPLER2D;;False;2;FLOAT4;0,0,0,0;False;3;SAMPLERSTATE;;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SamplerNode;10;-2658.103,-298.9787;Inherit;True;Property;_TextureSample0;Texture Sample 0;4;0;Create;True;0;0;0;False;0;False;12;None;None;True;0;False;white;Auto;False;Instance;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;64;-3087.081,-371.1855;Inherit;False;Property;_BaseColorTint;Base Color Tint;2;0;Create;True;0;0;0;False;0;False;1,1,1,0;0.1732572,0.4339622,0.02661091,1;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.RangedFloatNode;48;-2650.676,717.2456;Inherit;False;Property;_WindScale;Wind Scale;6;0;Create;True;0;0;0;False;0;False;0.2588236;1;0;2;0;1;FLOAT;0
 Node;AmplifyShaderEditor.DitheringNode;89;-2065.981,-836.5086;Inherit;False;1;False;4;0;FLOAT;0;False;1;SAMPLER2D;;False;2;FLOAT4;0,0,0,0;False;3;SAMPLERSTATE;;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleAddOpNode;43;-2388.156,542.5677;Inherit;False;2;2;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.ColorNode;55;-2578.789,-101.8611;Inherit;False;Property;_ColorTint;Color Tint;1;0;Create;True;0;0;0;False;0;False;1,1,1,0;1,1,1,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.RegisterLocalVarNode;90;-1285.284,-978.8453;Inherit;False;vGrassDistance;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.ColorNode;64;-3087.081,-371.1855;Inherit;False;Property;_BaseColorTint;Base Color Tint;2;0;Create;True;0;0;0;False;0;False;1,1,1,0;1,1,1,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.RangedFloatNode;48;-2650.676,717.2456;Inherit;False;Property;_WindScale;Wind Scale;7;0;Create;True;0;0;0;False;0;False;0.2588236;0;0;2;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RegisterLocalVarNode;96;-1751.819,-200.8229;Inherit;False;vAlpha;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;90;-1285.284,-978.8453;Inherit;False;vGrassDistance;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleAddOpNode;43;-2388.156,542.5677;Inherit;False;2;2;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;63;-2281.362,-375.9384;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;54;-2294.79,-208.0502;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.SamplerNode;59;-2292.036,-95.81062;Inherit;True;Property;_ColorMask;Color Mask;4;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.GetLocalVarNode;97;-869.6192,123.2771;Inherit;False;96;vAlpha;1;0;OBJECT;;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SamplerNode;59;-2292.036,-95.81062;Inherit;True;Property;_ColorMask;Color Mask;4;0;Create;True;0;0;0;False;0;False;-1;None;7f886a076332c0c4789d91e9134c6424;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.GetLocalVarNode;94;-901.3788,197.7955;Inherit;False;90;vGrassDistance;1;0;OBJECT;;False;1;FLOAT;0
 Node;AmplifyShaderEditor.NoiseGeneratorNode;47;-2219.612,537.2402;Inherit;False;Simplex3D;False;False;2;0;FLOAT3;0,0,0;False;1;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;54;-2294.79,-208.0502;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.RegisterLocalVarNode;91;-1878.983,-837.5086;Inherit;False;vTerrainDither;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.GetLocalVarNode;97;-869.6192,123.2771;Inherit;False;96;vAlpha;1;0;OBJECT;;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;51;-2218.673,681.2464;Inherit;False;Property;_WindIntensity;Wind Intensity;8;0;Create;True;0;0;0;False;0;False;5;0;0;50;0;1;FLOAT;0
-Node;AmplifyShaderEditor.ScaleNode;50;-2016.675,541.2471;Inherit;False;0.015;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.GetLocalVarNode;95;-894.3788,270.7952;Inherit;False;91;vTerrainDither;1;0;OBJECT;;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;51;-2218.673,681.2464;Inherit;False;Property;_WindIntensity;Wind Intensity;8;0;Create;True;0;0;0;False;0;False;5;3.2;0;50;0;1;FLOAT;0
 Node;AmplifyShaderEditor.LerpOp;58;-1930.007,-293.4413;Inherit;False;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.ScaleNode;50;-2016.675,541.2471;Inherit;False;0.015;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;92;-644.9665,208.7229;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.GetLocalVarNode;95;-894.3788,270.7952;Inherit;False;91;vTerrainDither;1;0;OBJECT;;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;49;-1859.674,541.2471;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.RegisterLocalVarNode;60;-1754.657,-300.3033;Inherit;False;vColor;-1;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.VertexColorNode;56;-1892.777,378.6124;Inherit;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;93;-461.6665,246.7231;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;57;-1631.273,477.8916;Inherit;True;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.RangedFloatNode;1;-534.5779,-270.3036;Inherit;False;Property;_AlphaCutoff;Alpha Cutoff;0;0;Create;True;0;0;0;False;0;False;0.35;0;0;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.StaticSwitch;108;-306.6837,178.0497;Inherit;False;Property;_DitheringON;Dithering ON;11;0;Create;True;0;0;0;False;0;False;0;0;0;True;_DITHERINGON_ON;Toggle;2;Key0;Key1;Create;False;True;9;1;FLOAT;0;False;0;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT;0;False;7;FLOAT;0;False;8;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;36;-305.9848,87.3504;Inherit;False;Property;_Smoothness;Smoothness;5;0;Create;True;0;0;0;False;0;False;1;0.1;-2;2;0;1;FLOAT;0
+Node;AmplifyShaderEditor.StaticSwitch;108;-306.6837,178.0497;Inherit;False;Property;_DitheringON;Dithering ON;9;0;Create;True;0;0;0;False;0;False;0;0;0;True;_DITHERINGON_ON;Toggle;2;Key0;Key1;Create;False;True;9;1;FLOAT;0;False;0;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT;0;False;7;FLOAT;0;False;8;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;115;-227.5004,431.5049;Inherit;False;Property;_AlphaClipThreshold;Alpha Clip Threshold;10;0;Create;True;0;0;0;False;0;False;0.8;0.8;0;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.GetLocalVarNode;61;-279.0808,-6.267761;Inherit;False;60;vColor;1;0;OBJECT;;False;1;COLOR;0
-Node;AmplifyShaderEditor.RangedFloatNode;36;-305.9848,87.3504;Inherit;False;Property;_Smoothness;Smoothness;5;0;Create;True;0;0;0;False;0;False;1;0;-2;2;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;115;-194.4033,356.6183;Inherit;False;Constant;_AlphaClipThreshold;Alpha Clip Threshold;12;0;Create;True;0;0;0;False;0;False;0.76;0;0;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;112;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraph.PBRMasterGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;DepthOnly;0;3;DepthOnly;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;0;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;False;False;True;False;False;False;False;0;False;-1;False;False;False;False;False;False;False;False;False;True;1;False;-1;False;False;True;1;LightMode=DepthOnly;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;114;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraph.PBRMasterGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;Universal2D;0;5;Universal2D;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;0;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;True;1;1;False;-1;0;False;-1;1;1;False;-1;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;1;LightMode=Universal2D;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;109;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraph.PBRMasterGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ExtraPrePass;0;0;ExtraPrePass;5;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;0;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;True;1;1;False;-1;0;False;-1;0;1;False;-1;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;True;True;True;True;0;False;-1;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;0;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.RangedFloatNode;1;-534.5779,-270.3036;Inherit;False;Property;_AlphaCutoff;Alpha Cutoff;0;0;Create;True;0;0;0;False;0;False;0.35;0.35;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;57;-1631.273,477.8916;Inherit;True;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;110;0,0;Float;False;True;-1;2;UnityEditor.ShaderGraph.PBRMasterGUI;0;2;Polyart/Dreamscape Simple Foliage;94348b07e5e8bab40bd6c8a1e3df54cd;True;Forward;0;1;Forward;18;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;2;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;True;1;1;False;-1;0;False;-1;1;1;False;-1;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;-1;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;1;LightMode=UniversalForward;False;False;0;Hidden/InternalErrorShader;0;0;Standard;38;Workflow;1;Surface;0;  Refraction Model;0;  Blend;0;Two Sided;1;Fragment Normal Space,InvertActionOnDeselection;0;Transmission;0;  Transmission Shadow;0.5,False,-1;Translucency;0;  Translucency Strength;1,False,-1;  Normal Distortion;0.5,False,-1;  Scattering;2,False,-1;  Direct;0.9,False,-1;  Ambient;0.1,False,-1;  Shadow;0.5,False,-1;Cast Shadows;1;  Use Shadow Threshold;0;Receive Shadows;1;GPU Instancing;1;LOD CrossFade;1;Built-in Fog;1;_FinalColorxAlpha;0;Meta Pass;1;Override Baked GI;0;Extra Pre Pass;0;DOTS Instancing;0;Tessellation;0;  Phong;0;  Strength;0.5,False,-1;  Type;0;  Tess;16,False,-1;  Min;10,False,-1;  Max;25,False,-1;  Edge Length;16,False,-1;  Max Displacement;25,False,-1;Write Depth;0;  Early Z;0;Vertex Position,InvertActionOnDeselection;1;0;6;False;True;True;True;True;True;False;;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;111;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraph.PBRMasterGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ShadowCaster;0;2;ShadowCaster;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;0;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;False;-1;True;3;False;-1;False;True;1;LightMode=ShadowCaster;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;109;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraph.PBRMasterGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ExtraPrePass;0;0;ExtraPrePass;5;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;0;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;True;1;1;False;-1;0;False;-1;0;1;False;-1;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;True;True;True;True;0;False;-1;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;0;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;113;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraph.PBRMasterGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;Meta;0;4;Meta;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;0;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Meta;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;114;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraph.PBRMasterGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;Universal2D;0;5;Universal2D;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;0;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;True;1;1;False;-1;0;False;-1;1;1;False;-1;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;1;LightMode=Universal2D;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;111;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraph.PBRMasterGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ShadowCaster;0;2;ShadowCaster;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;0;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;False;-1;True;3;False;-1;False;True;1;LightMode=ShadowCaster;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;112;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraph.PBRMasterGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;DepthOnly;0;3;DepthOnly;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;0;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;False;False;True;False;False;False;False;0;False;-1;False;False;False;False;False;False;False;False;False;True;1;False;-1;False;False;True;1;LightMode=DepthOnly;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
 WireConnection;104;0;106;2
 WireConnection;104;1;103;0
-WireConnection;102;0;101;0
 WireConnection;81;0;80;0
 WireConnection;81;1;80;0
-WireConnection;105;0;104;0
-WireConnection;105;1;102;0
+WireConnection;102;0;101;0
 WireConnection;46;0;44;0
 WireConnection;86;0;81;0
-WireConnection;107;0;105;0
-WireConnection;45;0;46;0
+WireConnection;105;0;104;0
+WireConnection;105;1;102;0
 WireConnection;87;0;86;0
+WireConnection;107;0;105;0
 WireConnection;10;0;12;0
+WireConnection;45;0;46;0
 WireConnection;89;0;107;0
+WireConnection;96;0;10;4
+WireConnection;90;0;87;0
 WireConnection;43;0;42;0
 WireConnection;43;1;45;0
-WireConnection;90;0;87;0
-WireConnection;96;0;10;4
 WireConnection;63;0;64;0
 WireConnection;63;1;10;0
-WireConnection;54;0;10;0
-WireConnection;54;1;55;0
 WireConnection;47;0;43;0
 WireConnection;47;1;48;0
+WireConnection;54;0;10;0
+WireConnection;54;1;55;0
 WireConnection;91;0;89;0
-WireConnection;50;0;47;0
 WireConnection;58;0;63;0
 WireConnection;58;1;54;0
 WireConnection;58;2;59;0
+WireConnection;50;0;47;0
 WireConnection;92;0;97;0
 WireConnection;92;1;94;0
 WireConnection;49;0;50;0
@@ -2323,14 +2311,14 @@ WireConnection;49;1;51;0
 WireConnection;60;0;58;0
 WireConnection;93;0;92;0
 WireConnection;93;1;95;0
-WireConnection;57;0;56;0
-WireConnection;57;1;49;0
 WireConnection;108;1;97;0
 WireConnection;108;0;93;0
+WireConnection;57;0;56;0
+WireConnection;57;1;49;0
 WireConnection;110;0;61;0
 WireConnection;110;4;36;0
 WireConnection;110;6;108;0
 WireConnection;110;7;115;0
 WireConnection;110;8;57;0
 ASEEND*/
-//CHKSM=CD305712ACACE68CBD5707D56BD61A3F56A88B0D
+//CHKSM=2D8BE881244861AAA5052F195BCF04EDE6741D0F

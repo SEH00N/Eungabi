@@ -21,7 +21,7 @@ MonoBehaviour:
     value: 1
   intensity:
     overrideState: 1
-    value: 1
+    value: 0.4
   color:
     overrideState: 1
     value: {r: 0.20069422, g: 0.20754719, b: 0.20069422, a: 1}

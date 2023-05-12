@@ -1719,7 +1719,7 @@ Shader "Polyart/Dreamscape Surface World Aligned"
 }
 /*ASEBEGIN
 Version=18912
-872;305;2305;1613;4873.426;57.22656;1;True;False
+1125;206;2305;1631;4873.426;66.22656;1;True;False
 Node;AmplifyShaderEditor.Vector2Node;113;-4401.189,512.4832;Inherit;False;Property;_Tiling;Tiling;5;0;Create;True;0;0;0;False;0;False;1,1;0,0;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
 Node;AmplifyShaderEditor.SimpleDivideOpNode;114;-4238.189,517.4832;Inherit;False;2;0;FLOAT2;0,0;False;1;FLOAT2;10,10;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.TexturePropertyNode;55;-3993.295,249.9384;Inherit;True;Property;_AlbedoTexture;Albedo Texture;0;0;Create;True;0;0;0;True;0;False;None;None;False;white;Auto;Texture2D;-1;0;2;SAMPLER2D;0;SAMPLERSTATE;1
@@ -1755,4 +1755,4 @@ WireConnection;116;0;110;0
 WireConnection;116;1;97;0
 WireConnection;116;4;103;0
 ASEEND*/
-//CHKSM=06B50D5A857C70EE98210B0F2029CA6B02890711
+//CHKSM=2D885A70EFF661229BC76F8320353FDCD6275D4F
