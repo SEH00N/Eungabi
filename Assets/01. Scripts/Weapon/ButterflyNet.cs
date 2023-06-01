@@ -10,6 +10,7 @@ public class ButterflyNet : Weapon
 
     protected override void ActiveWeapon()
     {
+        //Debug.Log("weapon actived");
         StartCoroutine(DelayCoroutine(startDelay, () => {
             if(DetectLux(out Lux lux))
                 lux.OnInteract(transform.root);

@@ -37,8 +37,8 @@ public class BaseAttackState : State
 
     private void OnAnimationEventHandle()
     {
-        Debug.Log("asd");
-        playerAttack.ActiveMainWeapon();
+        //Debug.Log("asd");
+        //playerAttack.ActiveMainWeapon();
     }
 //여기 해야댐
     public void OnAnimationEndHandle()

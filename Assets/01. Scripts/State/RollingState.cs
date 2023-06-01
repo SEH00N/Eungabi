@@ -1,24 +1,31 @@
+using System;
+using System.Collections;
 using UnityEngine;
 
 public class RollingState : State
 {
+    [SerializeField] float postponeTime = 0.07f;
     [SerializeField] float rollingSpeed = 10f;
+
+    private Vector3 direction;
 
     public override void OnEnterState()
     {
         playerAnimator.OnAnimationEndTrigger += OnAnimationEndHandle;
 
-        playerMovement.StopImmediatly();
         playerMovement.IsActiveMove = false;
+        playerMovement.StopImmediatly();
 
-        Vector3 direction = Quaternion.Euler(0, -45f, 0) * playerInput.GetCurrentInputDirection().normalized;
-        if(direction.sqrMagnitude <= 0)
+        direction = Quaternion.Euler(0, -45f, 0) * playerInput.GetCurrentInputDirection().normalized;
+        if (direction.sqrMagnitude <= 0)
             direction = stateHandler.transform.forward;
 
-        playerMovement.SetRotationImmediatly(direction + stateHandler.transform.position);
-        playerMovement.SetMovementVelocity(direction * rollingSpeed);
+        StartCoroutine(DelayCoroutine(postponeTime, () => {
+            playerMovement.SetRotationImmediatly(direction + stateHandler.transform.position);
+            playerMovement.SetMovementVelocity(direction * rollingSpeed);
 
-        playerAnimator.ToggleRolling(true);
+            playerAnimator.ToggleRolling(true);
+        }));
     }
 
     public override void OnExitState()
@@ -35,7 +42,17 @@ public class RollingState : State
 
     private void OnAnimationEndHandle()
     {
-        playerAnimator.ToggleRolling(false);
-        stateHandler.ChangeState(StateFlag.Normal);
+        playerMovement.StopImmediatly();
+
+        StartCoroutine(DelayCoroutine(postponeTime, () => {
+            playerAnimator.ToggleRolling(false);
+            stateHandler.ChangeState(StateFlag.Normal);
+        }));
+    }
+
+    private IEnumerator DelayCoroutine(float delay, Action callback)
+    {
+        yield return new WaitForSeconds(delay);
+        callback?.Invoke();
     }
 }
