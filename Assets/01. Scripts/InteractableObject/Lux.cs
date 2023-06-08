@@ -33,7 +33,7 @@ public class Lux : MonoBehaviour, IInteractable
     {
         //Debug.Log("interected");
         //Debug.Log("여기 나중에 풀링으로 바꿔라");
-        StartCoroutine(Disappear(0.3f, () => {
+        StartCoroutine(Disappear(.8f, () => {
             Destroy(gameObject);
         }));
     }
@@ -46,7 +46,7 @@ public class Lux : MonoBehaviour, IInteractable
         {
             emphasisLight.intensity = lightIntensity * (EaseInExpo(1f - timer / duration));
 
-            propBlock.SetFloat(intensityHash, materialIntensity * EaseInOutExpo(1f - timer / duration));
+            propBlock.SetFloat(intensityHash, materialIntensity * EaseInExpo(1f - timer / duration));
             propBlock.SetFloat(alphaHash, 1f * EaseInExpo(1 - timer / duration));
             meshRenderer.SetPropertyBlock(propBlock);
 
