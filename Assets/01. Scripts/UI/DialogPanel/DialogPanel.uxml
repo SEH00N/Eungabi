@@ -1,9 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
-<engine:UXML
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:engine="UnityEngine.UIElements"
-    xmlns:editor="UnityEditor.UIElements"
-    xsi:noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd"
->
-    
-</engine:UXML>
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/01.%20Scripts/UI/DialogPanel/DialogPanel.uss?fileID=7433441132597879392&amp;guid=35554ceeb859a3b48a5e8a494b8c6e59&amp;type=3#DialogPanel" />
+    <ui:VisualElement name="Container" style="flex-basis: 100%; flex-direction: column-reverse;">
+        <ui:VisualElement name="DialogPanel" class="DialogPanel">
+            <ui:VisualElement name="TextPanel" class="TextPanel">
+                <ui:Label text="세훈아. 사랑해." name="TextField" display-tooltip-when-elided="true" enable-rich-text="true" style="-unity-text-align: upper-center; white-space: normal; -unity-font-definition: url(&apos;project://database/Assets/07.%20Fonts/Saemaul%20SDF.asset?fileID=11400000&amp;guid=85cf23ac670105048aa6b0325cdfa220&amp;type=2#Saemaul SDF&apos;); color: rgb(255, 255, 255); font-size: 40px;" />
+                <ui:VisualElement name="NamePanel" class="NamePanel">
+                    <ui:Label text="선한쌤" display-tooltip-when-elided="true" name="NameField" style="-unity-font-definition: url(&apos;project://database/Assets/07.%20Fonts/Saemaul%20SDF.asset?fileID=11400000&amp;guid=85cf23ac670105048aa6b0325cdfa220&amp;type=2#Saemaul SDF&apos;); font-size: 60px; -unity-font: initial; color: rgb(255, 255, 255);" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

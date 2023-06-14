@@ -1,1 +1,38 @@
-VisualElement {}
+.DialogPanel {
+    padding-left: 15%;
+    padding-right: 15%;
+    padding-top: 0;
+    padding-bottom: 3%;
+    flex-basis: 40%;
+    top: 500px;
+    transition-property: top;
+    transition-duration: 0.5s;
+    transition-timing-function: ease-in;
+}
+
+.DialogPanel.on {
+    top: 0;
+    transition-property: top;
+    transition-duration: 0.5s;
+    transition-timing-function: ease-out;
+}
+
+.TextPanel {
+    background-color: rgba(26, 26, 26, 0.8);
+    flex-basis: 100%;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 50px;
+    padding-bottom: 30px;
+    align-items: center;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.NamePanel {
+    position: absolute;
+    left: 100px;
+    top: -35px;
+}
