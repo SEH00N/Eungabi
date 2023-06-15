@@ -10,7 +10,7 @@ public class RollingState : State
     private Vector3 direction;
 
     public override void OnEnterState()
-    {
+    {   
         playerAnimator.OnAnimationEndTrigger += OnAnimationEndHandle;
 
         playerMovement.IsActiveMove = false;
@@ -46,6 +46,7 @@ public class RollingState : State
 
         StartCoroutine(DelayCoroutine(postponeTime, () => {
             playerAnimator.ToggleRolling(false);
+
             stateHandler.ChangeState(StateFlag.Normal);
         }));
     }

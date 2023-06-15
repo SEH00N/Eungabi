@@ -10,6 +10,7 @@ public class PlayerInput : MonoBehaviour
     public event Action<Vector3> OnMovementKeyPress = null;
     public event Action<AttackFlag> OnAttackKeyPress = null;
     public event Action OnRollingKeyPress = null;
+    public event Action OnInteractKeyPress = null;
 
     private Vector3 currentInputDirection = Vector3.zero;
 
@@ -24,6 +25,7 @@ public class PlayerInput : MonoBehaviour
         MovementInput();
         AttackInput();
         RollingInput();
+        InteractInput();
     }
 
     private void MovementInput()
@@ -48,6 +50,12 @@ public class PlayerInput : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Space))
             OnRollingKeyPress?.Invoke();
+    }
+
+    private void InteractInput()
+    {
+        if(Input.GetKeyDown(KeyCode.E))
+            OnInteractKeyPress?.Invoke();
     }
 
     public Vector3 GetCurrentInputDirection() => currentInputDirection.normalized;

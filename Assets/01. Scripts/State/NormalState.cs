@@ -2,11 +2,20 @@ using UnityEngine;
 
 public class NormalState : State
 {
+    private DialogController dialogController = null;
+
+    public override void SetUp(Transform root)
+    {
+        base.SetUp(root);
+        dialogController = root.GetComponent<DialogController>();
+    }
+
     public override void OnEnterState()
     {
         playerInput.OnMovementKeyPress += MovementHandle;
         playerInput.OnAttackKeyPress += AttackInputHandle;
         playerInput.OnRollingKeyPress += RollingInputHandle;
+        playerInput.OnInteractKeyPress += InteractInputHandle;
     }
 
     public override void UpdateState()
@@ -16,10 +25,10 @@ public class NormalState : State
 
     public override void OnExitState()
     {
-
         playerInput.OnMovementKeyPress -= MovementHandle;
         playerInput.OnAttackKeyPress -= AttackInputHandle;
         playerInput.OnRollingKeyPress -= RollingInputHandle;
+        playerInput.OnInteractKeyPress -= InteractInputHandle;
     }
 
     private void MovementHandle(Vector3 dir)
@@ -35,5 +44,10 @@ public class NormalState : State
     private void RollingInputHandle()
     {
         stateHandler.ChangeState(StateFlag.Rolling);
+    }
+
+    private void InteractInputHandle()
+    {
+        dialogController.ActiveDialog();
     }
 }

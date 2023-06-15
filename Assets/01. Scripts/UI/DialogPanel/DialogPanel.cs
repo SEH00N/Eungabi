@@ -23,24 +23,24 @@ public class DialogPanel : MonoBehaviour
         nameField = dialogPanel.Q<Label>("NameField");
     }
 
-    [SerializeField] string nameT;
-    [SerializeField] string contentT;
-    private bool a;
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.LeftControl))
-        {
-            DisplayPanel(a);
-            Debug.Log(a);
-            a = !a;
-        }
+    // [SerializeField] string nameT;
+    // [SerializeField] string contentT;
+    // private bool a;
+    // private void Update()
+    // {
+    //     if (Input.GetKeyDown(KeyCode.LeftControl))
+    //     {
+    //         DisplayPanel(a);
+    //         Debug.Log(a);
+    //         a = !a;
+    //     }
 
-        if (Input.GetKeyDown(KeyCode.LeftShift))
-        {
-            SetInterlocutor(nameT);
-            SetTextContent(contentT);
-        }
-    }
+    //     if (Input.GetKeyDown(KeyCode.LeftShift))
+    //     {
+    //         SetInterlocutor(nameT);
+    //         SetTextContent(contentT);
+    //     }
+    // }
 
     public void SetInterlocutor(string name)
     {
