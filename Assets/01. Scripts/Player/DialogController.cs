@@ -10,12 +10,15 @@ public class DialogController : MonoBehaviour
     private Collider interlocutorCollider = null;
     private Interlocutor interlocutor = null;
     private DialogPanel dialogPanel = null;
+    
     private StateHandler stateHandler = null;
+    private PlayerMovement playerMovement = null;
 
     private void Awake()
     {
         dialogPanel = UIManager.Instance.DialogPanel;
         stateHandler = GetComponent<StateHandler>();
+        playerMovement = GetComponent<PlayerMovement>();
     }
 
     private void Update()
@@ -37,21 +40,29 @@ public class DialogController : MonoBehaviour
 
     public void ActiveDialog()
     {
-        if(interlocutorCollider != null)
-        {
-            if (interlocutorCollider.TryGetComponent<Interlocutor>(out interlocutor))
-            {
-                interlocutor.ActiveDialog(() => {
-                    CameraManager.Instance.ActiveCamera(CameraType.MainCam);
+        if(interlocutorCollider == null)
+            return;
+        
+        if (interlocutorCollider.TryGetComponent<Interlocutor>(out interlocutor) == false)
+            return;
 
-                    StartCoroutine(DelayCoroutine(1f, () => {
-                        stateHandler.ChangeState(StateFlag.Normal);
-                        interlocutor = null;
-                    }));
-                });
-                stateHandler.ChangeState(StateFlag.Interact);
-            }
-        }
+        playerMovement.IsActiveRotate = false;
+        playerMovement.StopImmediatly();
+        playerMovement.SetRotation(interlocutor.transform.position);
+
+        StartCoroutine(DelayCoroutine(0.1f, () => {
+            interlocutor.ActiveDialog(() => {
+                CameraManager.Instance.ActiveCamera(CameraType.MainCam);
+
+                StartCoroutine(DelayCoroutine(1f, () => {
+                    stateHandler.ChangeState(StateFlag.Normal);
+                    interlocutor = null;
+                }));
+            });
+            
+            stateHandler.ChangeState(StateFlag.Interact);
+        }));
+
     }
 
     private bool TryDetectInterlocutor(out Collider interlocutorCollider)
