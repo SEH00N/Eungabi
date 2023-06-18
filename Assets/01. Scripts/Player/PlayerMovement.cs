@@ -40,8 +40,10 @@ public class PlayerMovement : MonoBehaviour
         else
             verticalVelocity = gravity * 0.3f * Time.fixedDeltaTime;
 
-        Vector3 move = movementVelocity + verticalVelocity * Vector3.up;
-        characterController.Move(move);
+        if(IsActiveMove) {
+            Vector3 move = movementVelocity + verticalVelocity * Vector3.up;
+            characterController.Move(move);
+        }
     }
 
     private void CalculateSpeed()
@@ -76,6 +78,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void SetMovementDirection(Vector3 value) => movementDir = value;
     public void SetMovementVelocity(Vector3 value) => movementVelocity = value;
+    public void MoveImmediatly(Vector3 target) => characterController.Move(target);
 
     public void SetRotationImmediatly(Vector3 target)
     {

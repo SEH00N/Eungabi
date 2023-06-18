@@ -5,7 +5,7 @@ using UnityEngine;
 public class DialogController : MonoBehaviour
 {
     [SerializeField] LayerMask opponentLayer = 1 << 7;
-    [SerializeField] float dialogDistance = 5f;
+    [SerializeField] float dialogDistance = 2f;
 
     private Collider interlocutorCollider = null;
     private Interlocutor interlocutor = null;
@@ -45,6 +45,10 @@ public class DialogController : MonoBehaviour
         
         if (interlocutorCollider.TryGetComponent<Interlocutor>(out interlocutor) == false)
             return;
+
+        Vector3 pos = (transform.position - interlocutor.transform.position).normalized * dialogDistance;
+        pos -= (transform.position - interlocutor.transform.position);
+        playerMovement.MoveImmediatly(pos);
 
         playerMovement.IsActiveRotate = false;
         playerMovement.StopImmediatly();
@@ -86,7 +90,7 @@ public class DialogController : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        if (UnityEditor.Selection.activeGameObject != this)
+        if (UnityEditor.Selection.activeGameObject != gameObject)
             return;
 
         Gizmos.color = Color.red;
