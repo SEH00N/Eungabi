@@ -10,6 +10,11 @@ public class IntroUI : MonoBehaviour
     private VisualElement optionButton;
     private VisualElement exitButton;
 
+    private void Awake()
+    {
+        uiDocument = GetComponent<UIDocument>();
+    }
+
     private void OnEnable()
     {
         VisualElement root = uiDocument.rootVisualElement;
@@ -19,15 +24,15 @@ public class IntroUI : MonoBehaviour
         optionButton = buttonContainer.Q("OptionButton");
         exitButton = buttonContainer.Q("ExitButton");
 
-        startButton.RegisterCallback<ClickEvent>(evt => {
+        startButton.RegisterCallback<MouseDownEvent>(evt => {
             Debug.Log("게임 시작");
         });
 
-        optionButton.RegisterCallback<ClickEvent>(evt => {
+        optionButton.RegisterCallback<MouseDownEvent>(evt => {
             Debug.Log("옵션 창");
         });
 
-        exitButton.RegisterCallback<ClickEvent>(evt => {
+        exitButton.RegisterCallback<MouseDownEvent>(evt => {
             Debug.Log("게임 종료");
         });
     }
