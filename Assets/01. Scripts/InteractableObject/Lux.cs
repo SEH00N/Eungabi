@@ -29,6 +29,12 @@ public class Lux : MonoBehaviour, IInteractable
         lightIntensity = emphasisLight.intensity;
     }
 
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Space))
+            OnInteract(null);
+    }
+
     public void OnInteract(Transform performer)
     {
         //Debug.Log("interected");

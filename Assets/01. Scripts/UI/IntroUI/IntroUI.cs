@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UIElements;
 
 
@@ -9,6 +10,10 @@ public class IntroUI : MonoBehaviour
     private VisualElement startButton;
     private VisualElement optionButton;
     private VisualElement exitButton;
+
+    [SerializeField] UnityEvent StartButtonClicked;
+    [SerializeField] UnityEvent OptionButtonClicked;
+    [SerializeField] UnityEvent ExitButtonClicked;
 
     private void Awake()
     {
@@ -25,15 +30,15 @@ public class IntroUI : MonoBehaviour
         exitButton = buttonContainer.Q("ExitButton");
 
         startButton.RegisterCallback<MouseDownEvent>(evt => {
-            Debug.Log("게임 시작");
+            StartButtonClicked?.Invoke();
         });
 
         optionButton.RegisterCallback<MouseDownEvent>(evt => {
-            Debug.Log("옵션 창");
+            OptionButtonClicked?.Invoke();
         });
 
         exitButton.RegisterCallback<MouseDownEvent>(evt => {
-            Debug.Log("게임 종료");
+            ExitButtonClicked?.Invoke();
         });
     }
 }
