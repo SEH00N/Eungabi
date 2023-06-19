@@ -40,10 +40,10 @@ public class PlayerMovement : MonoBehaviour
         else
             verticalVelocity = gravity * 0.3f * Time.fixedDeltaTime;
 
-        if(IsActiveMove) {
+        // if(IsActiveMove) {
             Vector3 move = movementVelocity + verticalVelocity * Vector3.up;
             characterController.Move(move);
-        }
+        // }
     }
 
     private void CalculateSpeed()

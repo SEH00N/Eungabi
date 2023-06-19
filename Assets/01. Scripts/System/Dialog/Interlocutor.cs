@@ -2,10 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Interlocutor : MonoBehaviour
 {
     [SerializeField] DialogDataSO dialogData;
+    [SerializeField] UnityEvent DialogEndEvent;
     private DialogPanel dialogPanel = null;
     
     private bool onDialog = false;
@@ -21,7 +23,6 @@ public class Interlocutor : MonoBehaviour
         if(onDialog)
             return;
         
-        dialogPanel.SetInterlocutor(dialogData.InterlocutorName);
         dialogPanel.DisplayPanel(true);
         onDialog = true;
         
@@ -35,17 +36,23 @@ public class Interlocutor : MonoBehaviour
         dialogPanel.DisplayPanel(false);
     }
 
-    private IEnumerator DialogCoroutine(List<string> dialogSequence, int dialogCount, Action endOfDialog)
+    private IEnumerator DialogCoroutine(List<DialogData> dialogSequence, int dialogCount, Action endOfDialog)
     {
         for(int i = 0; i < dialogCount; i++)
         {
-            dialogPanel.SetTextContent(dialogSequence[i]);
-            yield return null;
-            yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Mouse0));
+            dialogPanel.SetInterlocutor(dialogSequence[i].interlocutorName);
+
+            for(int j = 0; j < dialogSequence[i].DialogCount; j++)
+            {
+                dialogPanel.SetTextContent(dialogSequence[i][j]);
+                yield return null;
+                yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Mouse0));
+            }
         }
 
         onDialog = false;
         dialogPanel.DisplayPanel(false);
         endOfDialog?.Invoke();
+        DialogEndEvent?.Invoke();
     }
 }

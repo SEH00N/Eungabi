@@ -19,7 +19,7 @@ public class BaseAttackState : State
         playerMovement.SetRotation(playerInput.GetMouseWorldPosition());
 
         playerAttack.ActiveMainWeapon();
-        
+
         playerAnimator.OnAnimationEndTrigger += OnAnimationEndHandle;
         playerAnimator.OnAnimationEventTrigger += OnAnimationEventHandle;
     }
@@ -30,6 +30,8 @@ public class BaseAttackState : State
 
     public override void OnExitState()
     {
+        playerAnimator.ToggleAttack(false);
+
         playerMovement.IsActiveRotate = true;
         playerAnimator.OnAnimationEndTrigger -= OnAnimationEndHandle;
         playerAnimator.OnAnimationEventTrigger -= OnAnimationEventHandle;
@@ -40,7 +42,7 @@ public class BaseAttackState : State
         //Debug.Log("asd");
         //playerAttack.ActiveMainWeapon();
     }
-//여기 해야댐
+    //여기 해야댐
     public void OnAnimationEndHandle()
     {
         playerAnimator.ToggleAttack(false);

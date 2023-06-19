@@ -1,0 +1,32 @@
+.menuBG {
+    background-image: url('project://database/Assets/01.%20Scripts/UI/IntroUI/menuBG.png?fileID=2800000&guid=3982cdc2f035ba3499993e95c9e050ec&type=3#menuBG');
+    flex-basis: 70%;
+    background-color: rgba(255, 255, 255, 0);
+    flex-direction: column-reverse;
+}
+
+.btn {
+    right: 50px;
+    color: rgb(255, 255, 255);
+    -unity-text-align: upper-right;
+    -unity-font-definition: url('project://database/Assets/07.%20Fonts/Chab%20SDF.asset?fileID=11400000&guid=b950871279dff2b41a52c640ac2679be&type=2#Chab SDF');
+    -unity-font-style: normal;
+    transition-duration: 0.2s, 0.2s;
+    transition-property: font-size, padding-right;
+    font-size: 78px;
+}
+
+.btn:hover {
+    transition-property: font-size, padding-right;
+    transition-timing-function: ease-out, ease-in-out;
+    transition-duration: 0.15s, 0.2s;
+    font-size: 85px;
+    padding-right: 20px;
+}
+
+.buttonContainer {
+    flex-basis: 50%;
+    justify-content: space-between;
+    padding-right: 60px;
+    bottom: 120px;
+}

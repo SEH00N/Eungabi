@@ -1,0 +1,19 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/01.%20Scripts/UI/IntroUI/IntroUI.uss?fileID=7433441132597879392&amp;guid=83d92bd7c4061bf47af6548b80fe482f&amp;type=3#IntroUI" />
+    <ui:VisualElement name="Container" style="flex-basis: 100%; justify-content: flex-start; flex-direction: row-reverse;">
+        <ui:VisualElement name="MenuBG" class="menuBG">
+            <ui:Label text="EUNGABI" display-tooltip-when-elided="true" style="font-size: 128px; -unity-text-align: upper-right; -unity-font-definition: url(&apos;project://database/Assets/07.%20Fonts/Chab%20SDF.asset?fileID=11400000&amp;guid=b950871279dff2b41a52c640ac2679be&amp;type=2#Chab SDF&apos;); position: absolute; top: 55px; right: 55px; color: rgb(255, 255, 255);" />
+            <ui:VisualElement name="ButtonContainer" class="buttonContainer" style="justify-content: space-around;">
+                <ui:VisualElement name="StartButton" class="btn">
+                    <ui:Label text="게임 시작" display-tooltip-when-elided="true" name="StartText" />
+                </ui:VisualElement>
+                <ui:VisualElement name="OptionButton" class="btn">
+                    <ui:Label text="설정" display-tooltip-when-elided="true" name="OptionText" />
+                </ui:VisualElement>
+                <ui:VisualElement name="ExitButton" class="btn">
+                    <ui:Label text="종료" display-tooltip-when-elided="true" name="ExitText" enable-rich-text="true" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

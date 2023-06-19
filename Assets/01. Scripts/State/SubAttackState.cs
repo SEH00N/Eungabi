@@ -28,6 +28,8 @@ public class SubAttackState : State
 
     public override void OnExitState()
     {
+        playerAnimator.ToggleAttack(false);
+
         playerMovement.IsActiveRotate = true;
         playerAnimator.OnAnimationEndTrigger -= OnAnimationEndHandle;
     }

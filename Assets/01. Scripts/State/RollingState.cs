@@ -30,6 +30,8 @@ public class RollingState : State
 
     public override void OnExitState()
     {
+        playerAnimator.ToggleRolling(false);
+
         playerMovement.StopImmediatly();
         playerMovement.IsActiveMove = true;
 

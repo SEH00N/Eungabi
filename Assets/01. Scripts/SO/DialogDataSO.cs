@@ -4,7 +4,8 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "SO/DialogData")]
 public class DialogDataSO : ScriptableObject
 {
-    public string InterlocutorName;
-    public List<string> DialogSequence;
+    public DialogData this[int idx] => DialogSequence[idx];
+
+    public List<DialogData> DialogSequence;
     public int DialogCount => DialogSequence.Count;
 }
