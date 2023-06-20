@@ -2652,6 +2652,7 @@ GameObject:
   m_Component:
   - component: {fileID: 88935131}
   - component: {fileID: 88935132}
+  - component: {fileID: 88935133}
   m_Layer: 0
   m_Name: LoadingScene
   m_TagString: Untagged
@@ -2704,6 +2705,19 @@ MonoBehaviour:
   endPos: {fileID: 12185619}
   playerTrm: {fileID: 130196455}
   progress: 0
+--- !u!114 &88935133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 88935130}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8066a03ff137c414ba71f36eb36b884a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  renderTexture: {fileID: 8400000, guid: 785eed3a83b4571439936f5b259abfa7, type: 2}
 --- !u!1 &92456029
 GameObject:
   m_ObjectHideFlags: 0
@@ -43419,7 +43433,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 1048576
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 8600000, guid: 51b20f1b6369655489cf502c6eeac615, type: 2}
+  m_TargetTexture: {fileID: 8400000, guid: 785eed3a83b4571439936f5b259abfa7, type: 2}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
@@ -49992,7 +50006,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 503
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 8600000, guid: 51b20f1b6369655489cf502c6eeac615, type: 2}
+  m_TargetTexture: {fileID: 8400000, guid: 785eed3a83b4571439936f5b259abfa7, type: 2}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1

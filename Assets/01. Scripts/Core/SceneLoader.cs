@@ -32,11 +32,21 @@ public class SceneLoader : MonoBehaviour
     private IEnumerator LoadAsyncCoroutine(string name, LoadSceneMode mode, Action callback)
     {
         loadingProgress?.gameObject.SetActive(true);
+
+        float timer = 0f;
+        while(timer < 0.5f)
+        {
+            loadingProgress?.SetProgress(timer);
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
         AsyncOperation oper = SceneManager.LoadSceneAsync(name, mode);
 
         while(!oper.isDone)
         {
-            loadingProgress?.SetProgress(oper.progress);
+            loadingProgress?.SetProgress(0.5f + oper.progress * 0.5f);
+
             yield return null;
         }
 
