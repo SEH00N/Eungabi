@@ -25,8 +25,15 @@ public class DialogController : MonoBehaviour
     {
         if (TryDetectInterlocutor(out interlocutorCollider))
         {
+            if(dialogPanel.Focused == false)
+                dialogPanel.Focus(true);
+
+            dialogPanel.FocusPosition(DEFINE.MainCam.WorldToScreenPoint(interlocutorCollider.transform.position));
             //UI 띄우기
         }
+        else
+            dialogPanel.Focus(false);
+
         // else if (interlocutorCollider == null)
         // {
         //     if (interlocutor != null)

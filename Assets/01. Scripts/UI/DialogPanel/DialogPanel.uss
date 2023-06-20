@@ -1,4 +1,4 @@
-.DialogPanel {
+.dialogPanel {
     padding-left: 15%;
     padding-right: 15%;
     padding-top: 0;
@@ -10,14 +10,14 @@
     transition-timing-function: ease-in;
 }
 
-.DialogPanel.on {
+.dialogPanel.on {
     top: 0;
     transition-property: top;
     transition-duration: 0.5s;
     transition-timing-function: ease-out;
 }
 
-.TextPanel {
+.textPanel {
     background-color: rgba(26, 26, 26, 0.8);
     flex-basis: 100%;
     padding-left: 30px;
@@ -31,8 +31,22 @@
     border-bottom-right-radius: 20px;
 }
 
-.NamePanel {
+.namePanel {
     position: absolute;
     left: 100px;
     top: -35px;
+}
+
+.focusCursor {
+    position: absolute;
+    width: 250px;
+    height: 250px;
+    background-color: rgba(0, 0, 0, 0);
+    opacity: 0;
+}
+
+.focusCursor.on {
+    transition-property: opacity;
+    transition-duration: 0s;
+    opacity: 1;
 }
