@@ -8,12 +8,22 @@ public class ButterflyNet : Weapon
     [SerializeField] float detectRadius = 3f;
     [SerializeField] float startDelay = 0.3f;
 
+    private PlayerStatus playerStatus = null;
+
+    private void Awake()
+    {
+        playerStatus = transform.root.GetComponent<PlayerStatus>();
+    }
+
     protected override void ActiveWeapon()
     {
         //Debug.Log("weapon actived");
         StartCoroutine(DelayCoroutine(startDelay, () => {
             if(DetectLux(out Lux lux))
+            {
                 lux.OnInteract(transform.root);
+                playerStatus.LightQuantity++;
+            }
         }));
     }
 

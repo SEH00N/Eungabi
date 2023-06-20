@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class Lux : MonoBehaviour, IInteractable
 {
+    [SerializeField] int lightID = 0;
+
     private MeshRenderer meshRenderer = null;
     private Light emphasisLight = null;
     private MaterialPropertyBlock propBlock;

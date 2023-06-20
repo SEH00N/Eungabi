@@ -3403,7 +3403,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 662674002}
-  - component: {fileID: 662674006}
   - component: {fileID: 662674005}
   - component: {fileID: 662674004}
   - component: {fileID: 662674003}
@@ -3494,18 +3493,6 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &662674006
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 662674001}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ad84a8df6d39e498cdadf9bb4ee6b2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &683905485
 GameObject:
   m_ObjectHideFlags: 0
@@ -4703,7 +4690,8 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 20
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5186510192737924697, guid: ac82bb2fa2d10324093deafbf0fffc33, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: ac82bb2fa2d10324093deafbf0fffc33, type: 3}
 --- !u!4 &799679922 stripped
 Transform:
@@ -6669,7 +6657,8 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 20
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8457911424722158091, guid: f1641d46aeb2ce741a8ad5d6d27c5763, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f1641d46aeb2ce741a8ad5d6d27c5763, type: 3}
 --- !u!4 &1157235110 stripped
 Transform:
@@ -7502,7 +7491,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: TempLux
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3769870991324815586, guid: caa2fd78f93852247948f8ecf0714147, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: caa2fd78f93852247948f8ecf0714147, type: 3}
 --- !u!1 &1321155540
 GameObject:
@@ -11449,7 +11439,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: TempLuxGreen
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8457911424722158091, guid: f1641d46aeb2ce741a8ad5d6d27c5763, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f1641d46aeb2ce741a8ad5d6d27c5763, type: 3}
 --- !u!1001 &8334872338644137191
 PrefabInstance:
@@ -11514,5 +11505,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: TempLuxPurple
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5186510192737924697, guid: ac82bb2fa2d10324093deafbf0fffc33, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: ac82bb2fa2d10324093deafbf0fffc33, type: 3}

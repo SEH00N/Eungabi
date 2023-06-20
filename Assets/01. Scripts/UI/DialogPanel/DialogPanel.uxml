@@ -9,6 +9,6 @@
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
-        <ui:VisualElement name="FocusCursur" class="focusCursor" style="background-image: url(&apos;project://database/Assets/01.%20Scripts/UI/DialogPanel/focusCursor.png?fileID=2800000&amp;guid=f605491fb78540d4b99cebfe2bafe598&amp;type=3#focusCursor&apos;); transition-property: opacity, rotate;" />
+        <ui:VisualElement name="FocusCursor" class="focusCursor" style="background-image: url(&apos;project://database/Assets/01.%20Scripts/UI/DialogPanel/focusCursor.png?fileID=2800000&amp;guid=f605491fb78540d4b99cebfe2bafe598&amp;type=3#focusCursor&apos;);" />
     </ui:VisualElement>
 </ui:UXML>

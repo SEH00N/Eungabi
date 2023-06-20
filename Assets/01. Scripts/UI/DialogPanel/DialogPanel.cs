@@ -1,4 +1,3 @@
-using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -6,8 +5,8 @@ public class DialogPanel : MonoBehaviour
 {
     private UIDocument uiDocument;
 
+    [SerializeField] Transform focusCursor;
     private VisualElement dialogPanel;
-    private VisualElement focusCursor;
     private Label textField;
     private Label nameField;
 
@@ -26,15 +25,13 @@ public class DialogPanel : MonoBehaviour
         dialogPanel = root.Q("DialogPanel");
         textField = dialogPanel.Q<Label>("TextField");
         nameField = dialogPanel.Q<Label>("NameField");
-        
-        focusCursor = root.Q("FocusCursor");
     }
 
     private void Update()
     {
         if(Focused && dialogPanel != null)
         {
-            dialogPanel.transform.rotation = Quaternion.Euler(0f, 0f, dialogPanel.transform.rotation.eulerAngles.z + (10f * Time.deltaTime));
+            focusCursor.rotation = Quaternion.Euler(0f, 0f, focusCursor.rotation.eulerAngles.z + (100f * Time.deltaTime));
         }
     }
 
@@ -58,16 +55,15 @@ public class DialogPanel : MonoBehaviour
 
     public void Focus(bool active)
     {
-        if(active)
-            focusCursor.AddToClassList("on");
-        else
-            focusCursor.RemoveFromClassList("on");
+        focused = active;
+
+        focusCursor.gameObject.SetActive(active);
+        focusCursor.rotation = Quaternion.identity;
     }
 
     public void FocusPosition(Vector2 screenPos)
     {
-        focusCursor.style.left = screenPos.x;
-        focusCursor.style.right = screenPos.y;
+        focusCursor.position = screenPos;
     }
 }
     // [SerializeField] string nameT;

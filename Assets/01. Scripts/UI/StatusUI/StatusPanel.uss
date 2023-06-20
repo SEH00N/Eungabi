@@ -1,0 +1,45 @@
+.statusPanel {
+    flex-basis: 55%;
+    background-color: rgba(255, 255, 255, 0);
+    left: -1152px;
+    transition-property: left;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-in;
+}
+
+.statusPanel.on {
+    left: 0;
+    transition-property: left;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-out;
+}
+
+.recordPanel {
+    flex-basis: 30%;
+    justify-content: space-around;
+}
+
+.recordBlock {
+    flex-basis: 50%;
+    flex-direction: row;
+}
+
+.recordBlock > #IconPanel {
+    flex-basis: 15%;
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+.recordBlock > #IconPanel > #Icon {
+    flex-basis: 100%;
+}
+
+.recordBlock > #Quantity {
+    font-size: 48px;
+    flex-grow: 1;
+    -unity-font-definition: url('project://database/Assets/07.%20Fonts/Chab%20SDF.asset?fileID=11400000&guid=b950871279dff2b41a52c640ac2679be&type=2#Chab SDF');
+    -unity-text-align: middle-left;
+    color: rgb(255, 255, 255);
+}

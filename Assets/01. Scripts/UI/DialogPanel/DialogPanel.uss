@@ -43,10 +43,16 @@
     height: 250px;
     background-color: rgba(0, 0, 0, 0);
     opacity: 0;
+    transition-property: opacity;
+    transition-duration: 0.1s;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
 }
 
 .focusCursor.on {
     transition-property: opacity;
-    transition-duration: 0s;
+    transition-duration: 0.1s;
     opacity: 1;
 }

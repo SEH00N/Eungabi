@@ -31,4 +31,14 @@ public class UIManager : MonoBehaviour
             return dialogPanel;
         }
     }
+
+    private StatusPanel statusPanel = null;
+    public StatusPanel StatusPanel {
+        get {
+            if(statusPanel == null)
+                statusPanel = MainCanvasTrm.Find("StatusPanel").GetComponent<StatusPanel>();
+
+            return statusPanel;
+        }
+    }
 }

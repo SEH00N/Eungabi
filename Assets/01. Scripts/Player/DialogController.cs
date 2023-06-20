@@ -21,7 +21,7 @@ public class DialogController : MonoBehaviour
         playerMovement = GetComponent<PlayerMovement>();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (TryDetectInterlocutor(out interlocutorCollider))
         {
@@ -32,7 +32,8 @@ public class DialogController : MonoBehaviour
             //UI 띄우기
         }
         else
-            dialogPanel.Focus(false);
+            if(dialogPanel.Focused == true)
+                dialogPanel.Focus(false);
 
         // else if (interlocutorCollider == null)
         // {
