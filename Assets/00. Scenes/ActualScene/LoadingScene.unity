@@ -2703,6 +2703,7 @@ MonoBehaviour:
   startPos: {fileID: 18937682}
   endPos: {fileID: 12185619}
   playerTrm: {fileID: 130196455}
+  progress: 0
 --- !u!1 &92456029
 GameObject:
   m_ObjectHideFlags: 0
@@ -26643,7 +26644,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1004499729
 Transform:
   m_ObjectHideFlags: 0
@@ -43418,7 +43419,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 1048576
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 0}
+  m_TargetTexture: {fileID: 8600000, guid: 51b20f1b6369655489cf502c6eeac615, type: 2}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
@@ -49991,7 +49992,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 503
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 0}
+  m_TargetTexture: {fileID: 8600000, guid: 51b20f1b6369655489cf502c6eeac615, type: 2}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
