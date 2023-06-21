@@ -4,6 +4,7 @@ using UnityEngine.Events;
 
 public class LuxCollectFeedback : Feedback
 {
+    [SerializeField] float duration = 0.8f;
     [SerializeField] UnityEvent EndOfFeedback;
 
     private MeshRenderer meshRenderer = null;
@@ -18,12 +19,12 @@ public class LuxCollectFeedback : Feedback
 
     private void Awake()
     {
-        meshRenderer = GetComponent<MeshRenderer>();
+        meshRenderer = transform.parent.GetComponent<MeshRenderer>();
         propBlock = new MaterialPropertyBlock();
 
         meshRenderer.GetPropertyBlock(propBlock);
 
-        emphasisLight = transform.Find("EmphasisLight").GetComponent<Light>();
+        emphasisLight = transform.parent.Find("EmphasisLight").GetComponent<Light>();
     }
 
     private void Start()
@@ -34,12 +35,13 @@ public class LuxCollectFeedback : Feedback
 
     public override void CreateFeedback()
     {
-        
+        StartCoroutine(Disappear(duration, () => EndOfFeedback?.Invoke()));
     }
 
     public override void FinishFeedback()
     {
-        
+        StopAllCoroutines();
+        Reset();
     }
 
     private IEnumerator Disappear(float duration, System.Action callback = null)
@@ -54,8 +56,6 @@ public class LuxCollectFeedback : Feedback
             propBlock.SetFloat(alphaHash, 1f * EaseInExpo(1 - timer / duration));
             meshRenderer.SetPropertyBlock(propBlock);
 
-            transform.position += Vector3.down * Time.deltaTime;
-
             timer += Time.deltaTime;
             yield return null;
         }
@@ -66,6 +66,14 @@ public class LuxCollectFeedback : Feedback
         meshRenderer.SetPropertyBlock(propBlock);
 
         callback?.Invoke();
+    }
+
+    public void Reset()
+    {
+        emphasisLight.intensity = lightIntensity;
+        propBlock.SetFloat(intensityHash, materialIntensity);
+        propBlock.SetFloat(alphaHash, 1f);
+        meshRenderer.SetPropertyBlock(propBlock);
     }
 
     private float EaseInExpo(float t) => t == 0f ? 0f : Mathf.Pow(2f, 10f * t - 10f);

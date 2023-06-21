@@ -12,9 +12,6 @@ EditorBuildSettings:
     path: Assets/00. Scenes/ActualScene/Castle.unity
     guid: 8272dbd2ffdaa764ca2ad66975cf2efa
   - enabled: 1
-    path: Assets/00. Scenes/ActualScene/LoadingScene.unity
-    guid: 489ab973a24008c40afd9dd6c8e421f5
-  - enabled: 1
     path: Assets/00. Scenes/ActualScene/Stage0.unity
     guid: 4aec78e9c74497844adec0b40103aaed
   m_configObjects: {}
