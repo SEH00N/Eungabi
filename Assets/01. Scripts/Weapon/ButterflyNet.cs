@@ -19,21 +19,21 @@ public class ButterflyNet : Weapon
     {
         //Debug.Log("weapon actived");
         StartCoroutine(DelayCoroutine(startDelay, () => {
-            if(DetectLux(out Lux lux))
+            if(DetectLux(out IInteractable ii))
             {
-                lux.OnInteract(transform.root);
+                ii.OnInteract(transform.root);
                 playerStatus.LightQuantity++;
             }
         }));
     }
 
-    private bool DetectLux(out Lux detectedLux)
+    private bool DetectLux(out IInteractable detectedLux)
     {
         detectedLux = null;
 
         Collider[] detectedColliders = Physics.OverlapSphere(detectPos.position, detectRadius, DEFINE.LuxLayer);
         foreach(Collider col in detectedColliders)
-            if(col.TryGetComponent<Lux>(out detectedLux))
+            if(col.TryGetComponent<IInteractable>(out detectedLux))
                 return true;
 
         return false;

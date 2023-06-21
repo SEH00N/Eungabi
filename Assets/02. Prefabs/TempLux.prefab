@@ -279,6 +279,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0ad84a8df6d39e498cdadf9bb4ee6b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lightID: 0
+  OnInteractEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3769870991324815586}
+        m_TargetAssemblyTypeName: Lux, Assembly-CSharp
+        m_MethodName: Collecting
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!135 &3769870991324815589
 SphereCollider:
   m_ObjectHideFlags: 0

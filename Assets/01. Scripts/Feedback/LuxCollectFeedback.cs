@@ -1,9 +1,10 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
-public class Lux : MonoBehaviour, IInteractable
+public class LuxCollectFeedback : Feedback
 {
-    [SerializeField] int lightID = 0;
+    [SerializeField] UnityEvent EndOfFeedback;
 
     private MeshRenderer meshRenderer = null;
     private Light emphasisLight = null;
@@ -31,13 +32,14 @@ public class Lux : MonoBehaviour, IInteractable
         lightIntensity = emphasisLight.intensity;
     }
 
-    public void OnInteract(Transform performer)
+    public override void CreateFeedback()
     {
-        //Debug.Log("interected");
-        //Debug.Log("여기 나중에 풀링으로 바꿔라");
-        StartCoroutine(Disappear(0.8f, () => {
-            Destroy(gameObject);
-        }));
+        
+    }
+
+    public override void FinishFeedback()
+    {
+        
     }
 
     private IEnumerator Disappear(float duration, System.Action callback = null)
@@ -67,25 +69,4 @@ public class Lux : MonoBehaviour, IInteractable
     }
 
     private float EaseInExpo(float t) => t == 0f ? 0f : Mathf.Pow(2f, 10f * t - 10f);
-    private float EaseOutExpo(float t) => t == 1f ? 1f : 1f - Mathf.Pow(2f, -10f * t);
-    private float EaseInOutExpo(float t) => 
-        t == 0f 
-        ? 0f
-        : t == 1f
-        ? 1f
-        : t < 0.5f ? Mathf.Pow(2f, 20f * t - 10f) / 2f 
-        : (2f - Mathf.Pow(2f, -20f * t + 10f)) / 2f;
-
-#if UNITY_EDITOR
-
-    private void OnDrawGizmosSelected()
-    {
-        Color previewColor = Gizmos.color;
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, 0.25f);
-
-        Gizmos.color = previewColor;
-    }
-
-#endif
 }

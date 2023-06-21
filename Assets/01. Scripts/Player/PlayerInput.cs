@@ -4,6 +4,8 @@ using UnityEngine;
 public class PlayerInput : MonoBehaviour
 {
     // private event Action player
+    [SerializeField] LayerMask pickableLayer;
+
     private PlayerMovement playerMovement = null;
     private PlayerAttack playerAttack = null;
 
@@ -63,7 +65,7 @@ public class PlayerInput : MonoBehaviour
     {
         Ray ray = DEFINE.MainCam.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-        bool result = Physics.Raycast(ray, out hit, DEFINE.MainCam.farClipPlane, DEFINE.GroundLayer);
+        bool result = Physics.Raycast(ray, out hit, DEFINE.MainCam.farClipPlane, pickableLayer);
 
         return (result ? hit.point : Vector3.zero);
     }
