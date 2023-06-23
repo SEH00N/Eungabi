@@ -19,8 +19,8 @@ public class AIBrain : MonoBehaviour
 
     public void ChangeState(AIState state)
     {
-        currentState?.OnStateExit();
+        currentState?.OnStateExit?.Invoke();
         currentState = state;
-        currentState?.OnStateEnter();
+        currentState?.OnStateEnter?.Invoke();
     }
 }

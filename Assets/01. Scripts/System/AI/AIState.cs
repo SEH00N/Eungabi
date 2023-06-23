@@ -1,8 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
-public abstract class AIState : MonoBehaviour
+public class AIState : MonoBehaviour
 {
+    public UnityEvent OnStateEnter = null;
+    public UnityEvent OnStateExit = null;
+
     protected List<AITransition> transitions;
     protected List<AIAction> actions;
     protected AIBrain aiBrain;
@@ -16,12 +20,10 @@ public abstract class AIState : MonoBehaviour
         transitions.ForEach(t => t.SetUp(parentRoot));
 
         actions = new List<AIAction>();
-        GetComponents<AIAction>();
+        GetComponents<AIAction>(actions);
         actions.ForEach(a => a.SetUp(parentRoot));
     }
 
-    public abstract void OnStateEnter();
-    public abstract void OnStateExit();
     public virtual void UpdateState()
     {
         foreach (AIAction a in actions)

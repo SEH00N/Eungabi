@@ -6,7 +6,7 @@ public class EnemyAIBrain : AIBrain
     public Transform Target => target;
 
     private EnemyHealth health = null;
-    public EnemyHealth Health = null;
+    public EnemyHealth Health => health;
 
     protected override void Awake()
     {
