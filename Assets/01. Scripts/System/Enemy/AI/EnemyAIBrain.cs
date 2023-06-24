@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class EnemyAIBrain : AIBrain
 {
-    private Transform target = null;
-    public Transform Target => target;
+    private EnemyAIData aiData = null;
+    public EnemyAIData AIData => aiData; 
 
     private EnemyHealth health = null;
     public EnemyHealth Health => health;
@@ -13,5 +13,6 @@ public class EnemyAIBrain : AIBrain
         base.Awake();
 
         health = GetComponent<EnemyHealth>();
+        aiData = new EnemyAIData();
     }
 }

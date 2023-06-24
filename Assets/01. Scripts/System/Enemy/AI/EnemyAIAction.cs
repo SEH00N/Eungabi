@@ -2,7 +2,7 @@ using UnityEngine;
 
 public abstract class EnemyAIAction : AIAction
 {
-    protected EnemyAIBrain AIBrain => base.aiBrain as EnemyAIBrain;
+    protected new EnemyAIBrain aiBrain = null;
 
     protected NavMovement navMovement = null;
     protected AnimatorHandler animator = null;
@@ -13,5 +13,6 @@ public abstract class EnemyAIAction : AIAction
         animator = parentRoot.GetComponent<AnimatorHandler>();
 
         base.SetUp(parentRoot);
+        aiBrain = base.aiBrain as EnemyAIBrain;
     }
 }
