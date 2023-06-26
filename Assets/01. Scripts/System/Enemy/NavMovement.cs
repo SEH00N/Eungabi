@@ -8,6 +8,8 @@ public class NavMovement : MonoBehaviour
 
     private AnimatorHandler animator = null;
 
+    private Vector3 rotateDirection;
+
     private void Awake()
     {
         navAgent = GetComponent<NavMeshAgent>();
@@ -16,8 +18,15 @@ public class NavMovement : MonoBehaviour
 
     private void Update()
     {
-        //if(navAgent.velocity.sqrMagnitude > 0)
-            animator?.SetSpeed(IsArrived() ? 0f : 1f);
+        animator?.SetSpeed(IsArrived() ? 0f : 1f);
+    }
+
+    private void FixedUpdate()
+    {
+        if(navAgent.updateRotation)
+            return;
+
+        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(rotateDirection), Time.deltaTime * 10f);
     }
 
     public bool IsArrived()
@@ -36,8 +45,11 @@ public class NavMovement : MonoBehaviour
         return path.status != NavMeshPathStatus.PathPartial;
     }
 
+    public void AutoRotate(bool value) => navAgent.updateRotation = value;
+
     public void StopImmediately() => navAgent.SetDestination(transform.position);
     public void MoveToTarget(Vector3 targetPos) => navAgent.SetDestination(targetPos);
+    public void SetRotateDirection(Vector3 dir) => rotateDirection = dir;
 
     #if UNITY_EDITOR
     
