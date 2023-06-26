@@ -25,10 +25,7 @@ public class LuxCollectFeedback : Feedback
         meshRenderer.GetPropertyBlock(propBlock);
 
         emphasisLight = transform.parent.Find("EmphasisLight").GetComponent<Light>();
-    }
 
-    private void Start()
-    {
         materialIntensity = meshRenderer.materials[0].GetFloat(intensityHash);
         lightIntensity = emphasisLight.intensity;
     }

@@ -15,4 +15,14 @@ public class DEFINE
             return mainCam;
         }
     }
+
+    private static Transform playerTrm = null;
+    public static Transform PlayerTrm {
+        get {
+            if(playerTrm == null)
+                playerTrm = GameObject.FindGameObjectWithTag("Player")?.transform;
+
+            return playerTrm;
+        }
+    }
 }

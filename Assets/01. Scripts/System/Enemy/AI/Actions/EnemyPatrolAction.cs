@@ -15,10 +15,7 @@ public class EnemyPatrolAction : EnemyAIAction
         {
             if(Random.Range(0, 3f) > 1f)
             {
-                Vector2 randomUnitCircumion = RandomCircumion() * patrolRadius;
-                patrolPos.x = randomUnitCircumion.x;
-                patrolPos.z = randomUnitCircumion.y;
-
+                GetDestination();
                 navMovement.MoveToTarget(transform.position + patrolPos);
             }
             else
@@ -31,6 +28,17 @@ public class EnemyPatrolAction : EnemyAIAction
                 }));
             }
         }
+    }
+
+    public void GetDestination()
+    {
+        Vector2 randomUnitCircumion = RandomCircumion() * patrolRadius;
+        Vector3 planePos = new Vector3(randomUnitCircumion.x, 0, randomUnitCircumion.y);
+        
+        if(navMovement.AbleToMove(planePos) == false)
+            GetDestination();
+        else
+            patrolPos = planePos;
     }
 
     private Vector2 RandomCircumion()

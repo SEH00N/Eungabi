@@ -15,4 +15,9 @@ public class EnemyAIBrain : AIBrain
         health = GetComponent<EnemyHealth>();
         aiData = new EnemyAIData();
     }
+
+    private void Start()
+    {
+        aiData.Target = DEFINE.PlayerTrm;
+    }
 }

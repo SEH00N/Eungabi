@@ -2,7 +2,7 @@ using UnityEngine;
 
 public abstract class EnemyAIAction : AIAction
 {
-    protected new EnemyAIBrain aiBrain = null;
+    protected EnemyAIBrain aiBrain = null;
 
     protected NavMovement navMovement = null;
     protected AnimatorHandler animator = null;
@@ -10,9 +10,10 @@ public abstract class EnemyAIAction : AIAction
     public override void SetUp(Transform parentRoot)
     {
         navMovement = parentRoot.GetComponent<NavMovement>();
-        animator = parentRoot.GetComponent<AnimatorHandler>();
+        animator = parentRoot.Find("Model").GetComponent<AnimatorHandler>();
+
+        aiBrain = parentRoot.GetComponent<EnemyAIBrain>();
 
         base.SetUp(parentRoot);
-        aiBrain = base.aiBrain as EnemyAIBrain;
     }
 }
