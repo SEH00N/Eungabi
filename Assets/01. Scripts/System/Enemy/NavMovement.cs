@@ -44,6 +44,12 @@ public class NavMovement : MonoBehaviour
 
         return path.status != NavMeshPathStatus.PathPartial;
     }
+    
+    public void RotateImmediately(Vector3 dir)
+    {
+        SetRotateDirection(dir);
+        transform.rotation = Quaternion.LookRotation(rotateDirection);
+    }
 
     public void AutoRotate(bool value) => navAgent.updateRotation = value;
 

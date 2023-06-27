@@ -3,8 +3,9 @@ using UnityEngine.Events;
 
 public class EnemyHealth : MonoBehaviour, IDamageable
 {
-    [SerializeField] UnityEvent OnDamageEvent;
+    [SerializeField] UnityEvent<Vector3, Vector3> OnDamageEvent;
     [SerializeField] UnityEvent OnStunEvent;
+    [SerializeField] UnityEvent OnDieEvent;
 
     public int MaxHP => enemyData.MaxHP;
     public int CurrentHP => currentHP;
@@ -24,7 +25,7 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         if(currentStunStack < enemyData.StunTrigger)
         {
             currentStunStack++;
-            OnDamageEvent?.Invoke();
+            OnDamageEvent?.Invoke(position, normal);
             Debug.Log($"{gameObject.name} : OnDamage");
 
             if(currentStunStack >= enemyData.StunTrigger)
@@ -36,6 +37,14 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         }
     }
 
+    public void OnDamage(int damage)
+    {
+        currentHP -= damage;
+
+        if(currentHP <= 0)
+            OnDieEvent?.Invoke();
+    }
+
     public void Init(EnemyDataSO enemyData = null)
     {
         if(enemyData != null)
@@ -43,5 +52,11 @@ public class EnemyHealth : MonoBehaviour, IDamageable
 
         currentHP = this.enemyData.MaxHP;
         currentStunStack = 0;
+    }
+
+    public void 빠빠이()
+    {
+        //풀링으로 바꾸기
+        Destroy(gameObject);
     }
 }

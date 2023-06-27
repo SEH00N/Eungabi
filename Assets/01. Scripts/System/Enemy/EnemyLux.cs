@@ -4,6 +4,12 @@ using UnityEngine.Events;
 public class EnemyLux : MonoBehaviour, IInteractable
 {
     [SerializeField] UnityEvent OnCollectedEvent;
+    private EnemyHealth enemyHealth = null;
+
+    private void Awake()
+    {
+        enemyHealth = transform.parent.GetComponent<EnemyHealth>();
+    }
 
     private void Start()
     {
@@ -12,6 +18,9 @@ public class EnemyLux : MonoBehaviour, IInteractable
 
     public void OnInteract(Transform performer)
     {
-        OnCollectedEvent?.Invoke();
+        enemyHealth.OnDamage(1);
+
+        if(enemyHealth.CurrentHP > 0)
+            OnCollectedEvent?.Invoke();
     }
 }

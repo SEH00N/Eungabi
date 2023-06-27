@@ -1,4 +1,3 @@
-using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 
 public class EnemyAttackAction : EnemyAIAction
@@ -18,7 +17,7 @@ public class EnemyAttackAction : EnemyAIAction
         if(cooldown)
         {
             timer += Time.deltaTime;
-            navMovement.SetRotateDirection(aiBrain.AIData.Target.position - transform.position);
+            navMovement.RotateImmediately(aiBrain.AIData.Target.position - transform.position);
 
             if(timer >= attackCooldown)
             {
