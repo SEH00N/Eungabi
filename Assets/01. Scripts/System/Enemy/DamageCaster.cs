@@ -8,7 +8,7 @@ public class DamageCaster : MonoBehaviour
 
     public void CastDamage(int damage)
     {
-        Vector3 startPos = transform.position - transform.forward * castingRadius;
+        Vector3 startPos = transform.position - transform.forward * castingRadius * 2f;
         RaycastHit[] hits = Physics.SphereCastAll(startPos, castingRadius, transform.forward, castingRadius * castingInterpolation, castingLayer);
 
         foreach(RaycastHit hit in hits)
@@ -35,7 +35,7 @@ public class DamageCaster : MonoBehaviour
         Color release = Gizmos.color;
         Gizmos.color = gizmoColor;
 
-        Vector3 startPos = transform.position - transform.forward * castingRadius;
+        Vector3 startPos = transform.position - transform.forward * castingRadius * 2f;
 
         Gizmos.DrawLine(startPos, startPos + transform.forward * castingRadius * castingInterpolation);
         Gizmos.DrawWireSphere(startPos + transform.forward * castingRadius * castingInterpolation, castingRadius);

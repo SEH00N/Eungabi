@@ -16,6 +16,16 @@ public class PoolManager : MonoBehaviour
     [SerializeField] List<PoolableMono> poolingList = new List<PoolableMono>();
     private Dictionary<string, Pool<PoolableMono>> pools = new Dictionary<string, Pool<PoolableMono>>();
 
+    private void Awake()
+    {
+        if(instance != null)
+            return;
+
+        instance = this;
+        foreach(PoolableMono p in poolingList)
+            CreatePool(p);
+    }
+
     public void CreatePool(PoolableMono prefab)
     {
         if(pools.ContainsKey(prefab.name)) 
@@ -53,5 +63,5 @@ public class PoolManager : MonoBehaviour
         return obj;
     }
 
-    public PoolableMono Pop(PoolableMono prefab) => Pop(prefab.name);
+    public PoolableMono Pop(PoolableMono prefab) => Pop(prefab.gameObject.name);
 }

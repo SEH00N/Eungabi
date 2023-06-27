@@ -34,7 +34,7 @@ public class BoxingGun : Weapon
 
     private RaycastHit[] DetectEnemy()
     {
-        Vector3 startPos = detectPos.position - detectPos.forward * detectRadius;
+        Vector3 startPos = detectPos.position - detectPos.forward * detectRadius * 2f;
         float distance = detectRadius * 3f;
 
         RaycastHit[] hits = Physics.SphereCastAll(startPos, detectRadius, detectPos.forward, distance, DEFINE.EnemyLayer);

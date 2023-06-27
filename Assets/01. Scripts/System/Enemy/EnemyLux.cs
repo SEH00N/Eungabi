@@ -3,7 +3,7 @@ using UnityEngine.Events;
 
 public class EnemyLux : MonoBehaviour, IInteractable
 {
-    [SerializeField] UnityEvent OnCollectedEvent;
+    [SerializeField] UnityEvent<Vector3, Vector3> OnCollectedEvent;
     private EnemyHealth enemyHealth = null;
 
     private void Awake()
@@ -21,6 +21,10 @@ public class EnemyLux : MonoBehaviour, IInteractable
         enemyHealth.OnDamage(1);
 
         if(enemyHealth.CurrentHP > 0)
-            OnCollectedEvent?.Invoke();
+        {
+            Vector3 normal = (performer.position - transform.position).normalized;
+            normal.y = 0;
+            OnCollectedEvent?.Invoke(transform.position, normal);
+        }
     }
 }

@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 101471763}
   - component: {fileID: 101471761}
   - component: {fileID: 101471762}
+  - component: {fileID: 1635059597}
+  - component: {fileID: 1635059598}
   m_Layer: 8
   m_Name: Feedback
   m_TagString: Untagged
@@ -73,6 +75,36 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1635059597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 101471760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f5e3947d68e75847abceeb9b4eb54f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  frequency: 3
+  amplitude: 1
+  duration: 0.12
+--- !u!114 &1635059598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 101471760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ff57e99d37aec24ba61d7570f74ccab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  freezeDelay: 0.02
+  freezeDuration: 0.08
+  timeFreezeValue: 0.02
 --- !u!1 &7552035848786954158
 GameObject:
   m_ObjectHideFlags: 0
@@ -86,6 +118,7 @@ GameObject:
   - component: {fileID: 7552035848786954157}
   - component: {fileID: 7552035848786954156}
   - component: {fileID: 7552035848786954159}
+  - component: {fileID: 3769870990995811922}
   m_Layer: 8
   m_Name: EnemyLux
   m_TagString: Untagged
@@ -130,6 +163,30 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: FeedbackHandler, Assembly-CSharp
         m_MethodName: PlayFeedback
         m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: AIBrain, Assembly-CSharp
+        m_MethodName: ChangeState
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: AIState, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 3769870990995811922}
+        m_TargetAssemblyTypeName: HitFeedback, Assembly-CSharp
+        m_MethodName: CreateFeedback
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -201,6 +258,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &3769870990995811922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7552035848786954158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7b605fc917ea5949a77ba4db4713a04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitParticle: {fileID: 9205610969178989700, guid: 35ab4cf6f50d30249b6fe19b084934af, type: 3}
 --- !u!1 &7552035849474844155
 GameObject:
   m_ObjectHideFlags: 0
