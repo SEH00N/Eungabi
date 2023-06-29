@@ -31,7 +31,7 @@ public class AnimatorHandler : MonoBehaviour
     public void ToggleAttack1(bool value) => animator.SetBool(onAttack1Hash, value);
     public void ToggleAttack2(bool value) => animator.SetBool(onAttack2Hash, value);
     public void ToggleAttack3(bool value) => animator.SetBool(onAttack3Hash, value);
-    public void ToggleHit(bool value) => SetTrigger(isHitHash, value);
+    public void ToggleHit(bool value) => animator.SetBool(isHitHash, value);
     public void ToggleDead(bool value) => animator.SetBool(isDeadHash, value);
     public void SetHitTrigger(bool value) => SetTrigger(hitTriggerHash, value);
     public void SetDeadTrigger(bool value) => SetTrigger(deadTriggerHash, value);
