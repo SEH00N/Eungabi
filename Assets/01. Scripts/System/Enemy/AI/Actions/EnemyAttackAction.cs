@@ -41,7 +41,6 @@ public class EnemyAttackAction : EnemyAIAction
                     animator.ToggleAttack2(true);
                 else
                     animator.ToggleAttack3(true);
-                
             }
             else
                 cooldown = true;
