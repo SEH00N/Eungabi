@@ -18683,8 +18683,9 @@ GameObject:
   - component: {fileID: 1020718345}
   - component: {fileID: 1020718346}
   - component: {fileID: 1020718347}
+  - component: {fileID: 1020718348}
   m_Layer: 7
-  m_Name: Tutorial
+  m_Name: Start
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18697,14 +18698,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1020718344}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.82, z: 0}
+  m_LocalRotation: {x: 0, y: 0.19080894, z: 0, w: 0.9816273}
+  m_LocalPosition: {x: 533.138, y: 72.72678, z: 762.4264}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1972146944}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Father: {fileID: 1761114020}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 22, z: 0}
 --- !u!65 &1020718346
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -18716,7 +18717,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 4, y: 4, z: 4}
+  m_Size: {x: 3, y: 3, z: 3}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1020718347
 MonoBehaviour:
@@ -18734,6 +18735,19 @@ MonoBehaviour:
   DialogEndEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1020718348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1020718344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 345f0cc42ed577a4ebb7c57cd4df4d50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pointIndex: 0
 --- !u!1001 &1021639225
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -33542,6 +33556,7 @@ GameObject:
   - component: {fileID: 1718958599}
   - component: {fileID: 1718958600}
   - component: {fileID: 1718958601}
+  - component: {fileID: 1718958602}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -33616,6 +33631,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12ac1ae70e3082d40bf879fcc8bf13fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1718958602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1718958596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b74f68f41d39df42837c64c707c591a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnPoints: []
 --- !u!1001 &1720885829
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -34249,6 +34277,38 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3021800361227820097, guid: 3da39b9cbf771e24685504dbfdd96764, type: 3}
   m_PrefabInstance: {fileID: 1753136774}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1761114019
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1761114020}
+  m_Layer: 0
+  m_Name: SpawnPoints
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1761114020
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1761114019}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1020718345}
+  m_Father: {fileID: 0}
+  m_RootOrder: 18
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1761748201
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -35631,8 +35691,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1829105357}
-  m_LocalRotation: {x: 0.05771087, y: 0.8455173, z: -0.093381114, w: 0.5225418}
-  m_LocalPosition: {x: -1.9396362, y: -0.43010712, z: 4.977173}
+  m_LocalRotation: {x: 0.05771002, y: 0.84551746, z: -0.09337975, w: 0.5225419}
+  m_LocalPosition: {x: -1.9396973, y: -0.43010712, z: 4.977051}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

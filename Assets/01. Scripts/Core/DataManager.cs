@@ -18,6 +18,7 @@ public class DataManager : MonoBehaviour
     private string savePath = "us4dnt";
 
     public StageData StageData;
+    public PlayerData PlayerData;
 
     private void Awake()
     {
@@ -31,6 +32,7 @@ public class DataManager : MonoBehaviour
             Directory.CreateDirectory(savePath);
 
         StageData = TryReadJson<StageData>();
+        PlayerData = TryReadJson<PlayerData>();
     }
 
     private void OnDestroy()

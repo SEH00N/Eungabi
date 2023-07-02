@@ -20,15 +20,15 @@ public class StageData : StorableData
     public override bool IsNull()
     {
         if(StageClearInfo == null)
-            return false;
+            return true;
 
         if(StageInfo == null)
-            return false;
+            return true;
 
         foreach(List<bool> lights in StageInfo)
             if(lights == null)
-                return false;
+                return true;
 
-        return true;
+        return false;
     }
 }
