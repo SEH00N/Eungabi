@@ -37,22 +37,52 @@
     top: -35px;
 }
 
-.focusCursor {
+.decisionPanel {
     position: absolute;
-    width: 250px;
-    height: 250px;
+    width: 100%;
+    height: 40%;
+    bottom: -20px;
+    flex-direction: row;
     background-color: rgba(0, 0, 0, 0);
-    opacity: 0;
-    transition-property: opacity;
-    transition-duration: 0.1s;
-    left: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
 }
 
-.focusCursor.on {
-    transition-property: opacity;
-    transition-duration: 0.1s;
-    opacity: 1;
+.decisionButton {
+    background-color: rgba(147, 147, 147, 0.1);
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    flex-basis: 100%;
+    transition-duration: 0.05s;
+}
+
+.decisionButton:hover {
+    margin-left: -5px;
+    margin-right: -5px;
+    margin-top: -5px;
+    margin-bottom: -5px;
+    border-left-color: rgba(89, 89, 89, 255);
+    border-right-color: rgba(89, 89, 89, 255);
+    border-top-color: rgba(89, 89, 89, 255);
+    border-bottom-color: rgba(89, 89, 89, 255);
+    transition-duration: 0.05s;
+    border-left-width: 5px;
+    border-right-width: 5px;
+    border-top-width: 5px;
+    border-bottom-width: 5px;
+    background-color: rgba(70, 70, 70, 0.3);
+}
+
+.decisionButton > #Text {
+    -unity-font-definition: url('project://database/Assets/07.%20Fonts/Chab%20SDF.asset?fileID=11400000&guid=b950871279dff2b41a52c640ac2679be&type=2#Chab SDF');
+    font-size: 48px;
+    -unity-text-align: middle-center;
+    flex-basis: 100%;
+    -unity-font-style: bold;
+    color: rgba(255, 255, 255, 255);
+    overflow: hidden;
 }

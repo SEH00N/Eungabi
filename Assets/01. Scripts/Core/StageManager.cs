@@ -13,13 +13,13 @@ public class StageManager : MonoBehaviour
         }
     }
 
-    [SerializeField] List<SpawnPoint> spawnPoints = new List<SpawnPoint>();
+    [SerializeField] List<Altar> altars = new List<Altar>();
 
     private void Awake()
     {
-        Transform spawnPointTrm = GameObject.Find("SpawnPoints")?.transform;
-        spawnPointTrm.GetComponentsInChildren<SpawnPoint>(spawnPoints);
+        Transform altarTrm = GameObject.Find("Altars")?.transform;
+        altarTrm.GetComponentsInChildren<Altar>(altars);
 
-        spawnPoints.Sort((a, b) => a.PointIndex - b.PointIndex);
+        altars.Sort((a, b) => a.SpawnPointIndex - b.SpawnPointIndex);
     }
 }
