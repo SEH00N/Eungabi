@@ -1,6 +1,6 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/01.%20Scripts/UI/StatusUI/StatusPanel.uss?fileID=7433441132597879392&amp;guid=206a151d722bebe4693fe69bbf3c51c7&amp;type=3#StatusPanel" />
-    <ui:VisualElement name="Container" style="flex-basis: 100%; flex-direction: row;">
+    <ui:VisualElement name="Container" style="flex-basis: 100%; flex-direction: row; visibility: hidden;">
         <ui:VisualElement name="StatusPanel" class="statusPanel" style="background-image: url(&apos;project://database/Assets/01.%20Scripts/UI/StatusUI/statusBG.png?fileID=2800000&amp;guid=881700ac40cb89d46884f3a59ecf185d&amp;type=3#statusBG&apos;);">
             <ui:VisualElement name="RecordPanel" class="recordPanel">
                 <ui:VisualElement name="LightBlock" class="recordBlock">

@@ -10,8 +10,17 @@ public class DialogPanel : MonoBehaviour
     private Label textField;
     private Label nameField;
 
+    private VisualElement decisionPanel;
+    private VisualElement positiveButton;
+    private VisualElement negativeButton;
+    private System.Action positiveAction;
+    private System.Action negativeAction;
+
     private bool focused;
     public bool Focused => focused;
+
+    private bool endDecision;
+    public bool EndDecision => endDecision;
 
     private void Awake()
     {
@@ -25,6 +34,15 @@ public class DialogPanel : MonoBehaviour
         dialogPanel = root.Q("DialogPanel");
         textField = dialogPanel.Q<Label>("TextField");
         nameField = dialogPanel.Q<Label>("NameField");
+
+        decisionPanel = dialogPanel.Q("TextPanel").Q("DecisionPanel");
+        positiveButton = decisionPanel.Q("PositiveButton");
+        negativeButton = decisionPanel.Q("NegativeButton");
+
+        positiveButton.RegisterCallback<MouseDownEvent>(evt => positiveAction?.Invoke());
+        positiveButton.RegisterCallback<MouseDownEvent>(evt => { decisionPanel.RemoveFromClassList("on"); endDecision = true; });
+        negativeButton.RegisterCallback<MouseDownEvent>(evt => negativeAction?.Invoke());
+        negativeButton.RegisterCallback<MouseDownEvent>(evt => { decisionPanel.RemoveFromClassList("on"); endDecision = true; });
     }
 
     private void Update()
@@ -50,8 +68,26 @@ public class DialogPanel : MonoBehaviour
         if (value)
             dialogPanel.AddToClassList("on");
         else
+        {
             dialogPanel.RemoveFromClassList("on");
+            decisionPanel.RemoveFromClassList("on");
+        }
     }
+
+    #region decision
+    
+    public void CreateDecision(System.Action positiveAction, System.Action negativeAction)
+    {
+        endDecision = false;
+        this.positiveAction = positiveAction;
+        this.negativeAction = negativeAction;
+
+        decisionPanel.AddToClassList("on");
+    }
+
+    #endregion
+
+    #region focus
 
     public void Focus(bool active)
     {
@@ -65,6 +101,8 @@ public class DialogPanel : MonoBehaviour
     {
         focusCursor.position = screenPos;
     }
+
+    #endregion
 }
     // [SerializeField] string nameT;
     // [SerializeField] string contentT;

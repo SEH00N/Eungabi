@@ -5,6 +5,7 @@
     transition-property: left;
     transition-duration: 0.3s;
     transition-timing-function: ease-in;
+    visibility: visible;
 }
 
 .statusPanel.on {

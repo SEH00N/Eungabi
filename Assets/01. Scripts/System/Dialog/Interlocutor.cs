@@ -9,6 +9,11 @@ public class Interlocutor : MonoBehaviour
     [SerializeField] DialogDataSO dialogData;
     [SerializeField] UnityEvent DialogEndEvent;
     private DialogPanel dialogPanel = null;
+
+    [Tooltip("Decision")]
+    [SerializeField] bool hadDecision;
+    [SerializeField] UnityEvent PositiveDecisionEvent;
+    [SerializeField] UnityEvent NegativeDecisionEvent;
     
     private bool onDialog = false;
     public bool OnDialog => onDialog;
@@ -50,9 +55,17 @@ public class Interlocutor : MonoBehaviour
             }
         }
 
+        if(hadDecision)
+        {
+            dialogPanel.CreateDecision(() => PositiveDecisionEvent?.Invoke(), () => NegativeDecisionEvent?.Invoke());
+            yield return new WaitUntil(() => dialogPanel.EndDecision);
+        }
+
         onDialog = false;
         dialogPanel.DisplayPanel(false);
         endOfDialog?.Invoke();
         DialogEndEvent?.Invoke();
     }
+
+    public void SS(string s) => Debug.Log(s);
 }
