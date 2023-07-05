@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -41,6 +40,7 @@ public class DataManager : MonoBehaviour
             return;
 
         SaveData<StageData>(StageData);
+        SaveData<PlayerData>(PlayerData);
     }
 
     private void OnApplicationQuit()

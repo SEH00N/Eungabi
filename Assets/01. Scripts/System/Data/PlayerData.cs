@@ -1,10 +1,15 @@
-using UnityEngine;
-
 public class PlayerData : StorableData
 {
     public int SpawnPointIdx = -1;
     public int LuxCount = -1;
     public int CurrentStage = -1;
+
+    public PlayerData()
+    {
+        SpawnPointIdx = 0;
+        LuxCount = 0;
+        CurrentStage = 0;
+    }
 
     public override bool IsNull()
     {

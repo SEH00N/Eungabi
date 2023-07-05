@@ -14,11 +14,13 @@ public class StageManager : MonoBehaviour
     }
 
     [SerializeField] List<Altar> altars = new List<Altar>();
+    public List<Altar> Altars => altars;
 
     private void Awake()
     {
         Transform altarTrm = GameObject.Find("Altars")?.transform;
-        altarTrm.GetComponentsInChildren<Altar>(altars);
+        Debug.Log(altarTrm.childCount);
+        altarTrm.GetComponentsInChildren<Altar>(true, altars);
 
         altars.Sort((a, b) => a.SpawnPointIndex - b.SpawnPointIndex);
     }

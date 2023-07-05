@@ -19,11 +19,12 @@ public class NavMovement : MonoBehaviour
     private void Update()
     {
         animator?.SetSpeed(IsArrived() ? 0f : 1f);
+        navAgent.isStopped = GameManager.Instance.GamePause;
     }
 
     private void FixedUpdate()
     {
-        if(navAgent.updateRotation)
+        if(navAgent.updateRotation || GameManager.Instance.GamePause)
             return;
 
         transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(rotateDirection), Time.deltaTime * 10f);

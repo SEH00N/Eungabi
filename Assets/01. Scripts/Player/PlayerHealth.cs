@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
+[System.Serializable]
 public class PlayerHealth : MonoBehaviour, IDamageable
 {
     [SerializeField] UnityEvent<Vector3, Vector3> OnDamageEvent;
@@ -33,5 +34,15 @@ public class PlayerHealth : MonoBehaviour, IDamageable
             OnDieEvent?.Invoke();
         else
             stateHandler.ChangeState(StateFlag.Hit);
+    }
+
+    public void Revive()
+    {
+        currentHP = maxHP;
+        stateHandler.ChangeState(StateFlag.Normal);
+        // GetComponent<PlayerMovement>().enabled = false;
+        // transform.position = (StageManager.Instance.Altars[DataManager.Instance.PlayerData.SpawnPointIdx].SpawnPosition.position);
+    
+        GetComponent<PlayerMovement>().MoveImmediatly(StageManager.Instance.Altars[DataManager.Instance.PlayerData.SpawnPointIdx].SpawnPosition.position - transform.position);
     }
 }

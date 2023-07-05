@@ -8,9 +8,11 @@ public class GameManager : MonoBehaviour
             if(instance == null)
                 instance = FindObjectOfType<GameManager>();
 
-            return null;
+            return instance;
         }
     }
+
+    public bool GamePause { get; set; }
 
     private void Awake()
     {

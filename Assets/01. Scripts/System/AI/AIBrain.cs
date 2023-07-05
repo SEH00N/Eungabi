@@ -14,7 +14,8 @@ public class AIBrain : MonoBehaviour
 
     protected virtual void Update()
     {
-        currentState?.UpdateState();
+        if(GameManager.Instance.GamePause == false)
+            currentState?.UpdateState();
     }
 
     public void ChangeState(AIState state)
