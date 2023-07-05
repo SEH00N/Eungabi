@@ -1,3 +1,4 @@
+[System.Serializable]
 public class PlayerData : StorableData
 {
     public int SpawnPointIdx = -1;

@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-[System.Serializable]
 public class PlayerHealth : MonoBehaviour, IDamageable
 {
     [SerializeField] UnityEvent<Vector3, Vector3> OnDamageEvent;
