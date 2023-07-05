@@ -10,7 +10,7 @@ public class HitFeedback : MonoBehaviour
         // Debug.Log($"point : {point} | normal : {normal}");
         Effect effect = PoolManager.Instance.Pop(hitParticle) as Effect;
         effect.transform.position = point;
-        effect.transform.rotation = Quaternion.LookRotation(normal);
+        //effect.transform.rotation = Quaternion.LookRotation(normal);
 
         effect.PlayEffects();
     }

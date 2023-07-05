@@ -17,20 +17,17 @@ public class Child1 : Base
 [Serializable]
 public class Child2 : Base
 {
-    public int b;
     public int c;
+    public int d;
 }
 
 public class TSerializeReference : MonoBehaviour
 {
-    [SerializeReference] Base a = new Child1();
-    [SerializeReference] Base b = new Child2();
-    [SerializeReference] List<Base> bList = new List<Base>();
-
-    private void Awake()
-    {
-        bList.Add(new Base());
-        bList.Add(new Child1());
-        bList.Add(new Child2());
-    }
+    [SerializeReference] Base foo = new Child1();
+    [SerializeReference] Base bar = new Child2();
+    [SerializeReference] List<Base> foobar = new List<Base>() {
+        new Base(),
+        new Child1(),
+        new Child2()
+    };
 }
