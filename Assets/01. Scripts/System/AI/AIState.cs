@@ -16,7 +16,7 @@ public class AIState : MonoBehaviour
         aiBrain = parentRoot.GetComponent<AIBrain>();
 
         transitions = new List<AITransition>();
-        GetComponentsInChildren<AITransition>(transitions);
+        GetComponentsInChildren<AITransition>(true, transitions);
         transitions.ForEach(t => t.SetUp(parentRoot));
 
         actions = new List<AIAction>();

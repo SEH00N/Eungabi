@@ -22,7 +22,7 @@ public class ButterflyNet : Weapon
             if(DetectLux(out IInteractable ii))
             {
                 ii.OnInteract(transform.root);
-                playerStatus.LightQuantity++;
+                playerStatus.LightQuantity+=10;
             }
         }));
     }

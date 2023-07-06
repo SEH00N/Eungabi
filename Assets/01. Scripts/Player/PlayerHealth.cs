@@ -22,6 +22,10 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     private void Start()
     {
         currentHP = maxHP;
+
+        Effect effect = PoolManager.Instance.Pop("HitEffect") as Effect;
+        effect.transform.position = transform.position;
+        effect.PlayEffects();
     }
 
     public void OnDamage(int damage, Transform performer = null, Vector3 position = default, Vector3 normal = default)

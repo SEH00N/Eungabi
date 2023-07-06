@@ -40,6 +40,7 @@ public class PoolManager : MonoBehaviour
 
     public void Push(PoolableMono obj)
     {
+        Debug.Log(obj.name + "pushed");
         if(pools.ContainsKey(obj.name) == false) 
         { 
             Debug.LogWarning($"current name of pool doesn't existed on pools : {obj.name}"); 

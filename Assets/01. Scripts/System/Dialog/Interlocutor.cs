@@ -46,6 +46,8 @@ public class Interlocutor : MonoBehaviour
         onDialog = false;
         endOfDialogAction?.Invoke();
         dialogPanel.DisplayPanel(false);
+
+        GameManager.Instance.GamePause = false;
     }
 
     private IEnumerator DialogCoroutine()

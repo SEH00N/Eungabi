@@ -19,7 +19,6 @@ public class StageManager : MonoBehaviour
     private void Awake()
     {
         Transform altarTrm = GameObject.Find("Altars")?.transform;
-        Debug.Log(altarTrm.childCount);
         altarTrm.GetComponentsInChildren<Altar>(true, altars);
 
         altars.Sort((a, b) => a.SpawnPointIndex - b.SpawnPointIndex);
