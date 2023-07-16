@@ -54,9 +54,9 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         currentStunStack = 0;
     }
 
-    public void 빠빠이()
+    public void 빠빠이(EnemyAIBrain aiBrain)
     {
         //풀링으로 바꾸기
-        Destroy(gameObject);
+        PoolManager.Instance.Push(aiBrain);
     }
 }
